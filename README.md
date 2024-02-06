@@ -1,9 +1,9 @@
 # Python Tutorial
 
-A guide into understanding the basics of the python programming language.
+A guide to understanding the basics of the Python programming language.
 
 # Variables
-
+A variable is created once you assign a value to it. They must start with a letter/underscore, contain alpha-numeric characters, be case-sensitive, and not be one of the Python keywords.
 # Data Types
 
 # Numbers
