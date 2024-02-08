@@ -21,6 +21,7 @@ A variable is created once you assign a value to it. They must start with a lett
 # Tuples
 
 # Sets
+A set is a python datatype that consists of unique elements that ca not be altered after being added.
 
 # Dictionaries
 
