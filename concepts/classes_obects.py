@@ -2,7 +2,7 @@
 
 # Source: https://www.w3schools.com/python/python_classes.asp
 
-# Nearly everythong in python is an object with properties/methods
+# Nearly everything in python is an object with properties/methods
 # A class can be thought of as an object constructor, or "blue print" for creating objects
 
 # The following is the most simplistic version on creating classes and objects
