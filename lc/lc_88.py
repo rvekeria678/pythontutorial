@@ -7,13 +7,12 @@ class Solution:
         temp = []
         p1 = 0
         p2 = 0
-        while p1 < m or p2 < n:
-            if (p1 < m and nums1[p1] < nums2[p2]):
-                temp.append(nums1[p1])
-                p1 += 1
+        while p1 < m and p2 < n:
+            if (p1 < m and p2 < n):
+
+            elif (p1 < m):
+            
             else:
-                temp.append(nums2[p2])
-                p2 += 1
         nums1 = temp
         print(nums1)
 
