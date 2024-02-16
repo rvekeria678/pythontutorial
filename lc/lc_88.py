@@ -24,12 +24,21 @@ class Solution:
         nums1 = temp
         print(nums1)
 
+    def merge2(self, nums1: list[int], m: int, nums2: list[int], n: int) -> None:
+        for i in range(n):
+            nums1[m + i] = nums2[i]
+        if n:
+            nums1.sort()
+        print(nums1)
+
 s = Solution()
 
 arr1 = [1,2,3,0,0,0]
 arr2 = [2,5,6]
-arr3 = []
 
-s.merge(arr1,3,arr2,3)
+s.merge2(arr1,3,arr2,3)
 
-s.merge(arr1,3,arr3,0)
+arr3 = [1,2,3,0,0,0]
+arr4 = [2,5,6]
+
+s.merge2(arr3,3,arr4,0)
