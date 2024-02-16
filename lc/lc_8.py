@@ -9,22 +9,23 @@ class Solution:
         upper = 2 ** 31 - 1
         lower = -2 ** 31
         for i in s:
-            if not i.isalpha():
+            if i.isalpha() and not r_flag:
+                break
+            elif not i.isalpha() and not i.isspace():
                 num += i
-                print(num)
                 r_flag = True
             elif i.isalpha() and r_flag:
-                num = int(num)
-                if num > upper: 
-                    return upper
-                elif num < lower: 
-                    return lower
-                else: 
-                    return num
-        return 0
-            
+                break
+
+        
 s = Solution()
 
-print(s.myAtoi("Hello 1234 World"))
+#print(s.myAtoi("Hello 1234 World"))
 
-print(s.myAtoi("    -42"))
+#print(s.myAtoi("    -42"))
+
+print(s.myAtoi("   3054 Hello World!"))
+
+#print(s.myAtoi("   3.1415aef"))
+
+#print(s.myAtoi("+-12"))
