@@ -7,17 +7,21 @@ class Solution:
         temp = []
         p1 = 0
         p2 = 0
-        while p1 < m and p2 < n:
+        while p1 < m or p2 < n:
             if (p1 < m and p2 < n):
-
+                if (nums1[p1] < nums2[p2]):
+                    temp.append(nums1[p1])
+                    p1 += 1
+                else:
+                    temp.append(nums2[p2])
+                    p2 += 1
             elif (p1 < m):
-            
+                temp.append(nums1[p1])
+                p1 += 1
             else:
+                temp.append(nums2[p2])
+                p2 += 1
         nums1 = temp
-        print(nums1)
-
-    def merge2(self, nums1: list[int], m: int, nums2: list[int], n: int) -> None:
-        nums1 = nums1 + nums2
         print(nums1)
 
 s = Solution()
