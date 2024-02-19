@@ -8,29 +8,22 @@ class Solution:
         lower = -2 ** 31
         upper = 2 ** 31 - 1
         for i in s:
-            if i.isalpha() and not len(num):
-                return 0
-            elif not i.isnumeric() and len(num):
-               break
-            elif not i.isspace():
+            if not i.isalpha():
                 num += i
-        num = 0 if not len(num) or num == '+' or num == '-' else int(float(num))
-        if num < lower:
-            return lower
-        elif num > upper:
-            return upper
-        return num
-
+                print(num)
+                r_flag = True
+            elif i.isalpha() and r_flag:
+                num = int(num)
+                if num > upper: 
+                    return upper
+                elif num < lower: 
+                    return lower
+                else: 
+                    return num
+        return 0
+            
 s = Solution()
 
-print('result:',s.myAtoi("42"))
+print(s.myAtoi("Hello 1234 World"))
 
-print('result: ',s.myAtoi("    -42"))
-
-print('result:',s.myAtoi("4193 with words"))
-
-print('result:',s.myAtoi('-91283472332'))
-
-print('result:',s.myAtoi('3.14159265'))
-
-print('result:', s.myAtoi('+-12'))
+print(s.myAtoi("    -42"))
