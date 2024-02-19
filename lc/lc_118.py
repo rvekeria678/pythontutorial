@@ -2,6 +2,8 @@
 
 # Description: Given an integer numRows, returns the first numRows of Pascal's triangle. In Pascal's triangle each number is the sum of the two numbers directly above it as shown:
 
+# Helpful Aid: https://www.youtube.com/watch?v=nPVEaB3AjUM&ab_channel=NeetCode
+
 class Solution:
     def generate(self, numRows: int) -> list[list[int]]:
         res = [[1]]
