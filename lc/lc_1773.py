@@ -13,8 +13,14 @@
 # Return the number of items that match the given rule.
 
 class Solution:
-    def countMatches(self, items: List[List[str]], ruleKey: str, ruleValue: str) -> int:
-        
+    def countMatches(self, items: list[list[str]], ruleKey: str, ruleValue: str) -> int:
+        dict = {"type": 0, "color": 1, "name": 2}
+        count = 0
+        for i in items:
+            if i[dict[ruleKey]] == ruleValue:
+                count += 1
+        return count
+
 s = Solution()
 
 items1 = [["phone","blue","pixel"],["computer","silver","lenovo"],["phone","gold","iphone"]]
@@ -24,3 +30,6 @@ ruleValue1 = "silver"
 items2 = [["phone","blue","pixel"],["computer","silver","phone"],["phone","gold","iphone"]]
 ruleKey2 = "type"
 ruleValue2 = "phone"
+
+print(s.countMatches(items1, ruleKey1, ruleValue1))
+print(s.countMatches(items2, ruleKey2, ruleValue2))
