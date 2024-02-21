@@ -4,8 +4,20 @@
 
 class Solution:
     def differenceOfSum(self, nums: list[int]) -> int:
-        pass
+        element_sum = sum(nums)
+        digit_sum = 0
+        for i in nums:
+            digit_sum += self.getDigitSum(i)
 
+        return abs(element_sum - digit_sum)
+
+    def getDigitSum(self, num):
+        val = 0
+        while num > 0:
+            val += num % 10
+            num = int(num/10)
+        return val
+            
 s = Solution()
 
 nums1 = [1,15,6,3]
