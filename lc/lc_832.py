@@ -8,7 +8,6 @@ class Solution:
             image[i] = image[i][::-1]
             for b in range(len(image[i])):
                 image[i][b] = image[i][b] ^ 1
-            #print(i)
         return image
 
 s = Solution()
