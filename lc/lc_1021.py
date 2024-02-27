@@ -16,13 +16,24 @@ class Solution:
             else:
                 stk.append(s[r])
         return res            
+    
+class Solution2:
+    def removeOuterParentheses(self, s: str) -> str:
+        count, l, res = 0, 0, ''
+        for r in range(len(s)):
+            count = count + 1 if s[r] == '(' else count - 1
+            if not count:
+                res += s[l+1:r]
+                l = r + 1
+        return res
 
 s = Solution()
+s2 = Solution2()
 
 str1 = "(()())(())"
 str2 = "(()())(())(()(()))"
 str3 = "()()"
 
-print(str1,':',s.removeOuterParentheses(str1))
-print(str2,':',s.removeOuterParentheses(str2))
-print(str3,':',s.removeOuterParentheses(str3))
+print(str1,':',s2.removeOuterParentheses(str1))
+print(str2,':',s2.removeOuterParentheses(str2))
+print(str3,':',s2.removeOuterParentheses(str3))
