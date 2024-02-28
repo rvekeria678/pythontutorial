@@ -9,9 +9,6 @@ class Solution:
         for i in paths:
             departure[i[0]] = '.'
             arrival[i[1]] = '.'
-        
-        print(departure)
-        print(arrival)
 
         for a in arrival:
             if a not in departure:
