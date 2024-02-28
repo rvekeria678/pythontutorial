@@ -4,10 +4,17 @@
 
 class Solution:
     def sortPeople(self, names: list[str], heights: list[int]) -> list[str]:
-        for i in range(1,len(heights)):
-            j = i - 1
-            while j >= 0 and heights[i] < heights[j]:
-                j-=1
+        d = {}
+        res = []
+        for i in range(len(heights)):
+            d[heights[i]] = names[i]
+
+        d = dict(sorted(d.items(), reverse=True))
+
+        for i in d:
+            res.append(d[i])
+
+        return res
             
                 
 
