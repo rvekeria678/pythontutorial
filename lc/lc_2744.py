@@ -7,21 +7,12 @@ class Solution:
         dict, count = {}, 0
 
         for i in words:
-            if i[::-1] in words:
-                count += 1
+            if i[::-1] in dict:
+                count +=1
+            if i not in dict:
+                dict[i] = '-'
         return count
-
-#        left, right, count = 0, 0, 0
-
-#        while left <= len(words) - 2:
-#            if right >= len(words):
-#                left += 1
-#                right = left
-#            if words[left] == words[right][::-1]:
-#                count += 1
-#            right += 1
-
-#        return count
+    
 
 s = Solution()
 
