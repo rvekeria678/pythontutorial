@@ -4,23 +4,18 @@
 
 class Solution:
     def groupThePeople(self, groupSizes: list[int]) -> list[list[int]]:
-        left, right = 0,1
-        selected, group = [], []
+        d, res= {}, []
+        for i in range(len(groupSizes)):
+            if groupSizes[i] not in d:
+                d[groupSizes[i]] = [i]
+            else:
+                d[groupSizes[i]].append(i)
+        for n in d:
+            for j in range(0,len(d[n]),n):
+                res.append(d[n][j:j+n])
 
-        while left <= len(groupSizes) - 1:
-            size = groupSizes[left]
-            #print(left, right)
-            while size and left not in selected and right < len(groupSizes):
-                if groupSizes[left] == groupSizes[right] and groupSizes[right] not in selected:
-                    size -= 1
-                    selected.append(right)
-                    group.append(right)
-                right += 1
-            left += 1
-            right = left + 1
-            print(group)
-            group = []
-        return group
+        return res
+
 s = Solution()
 
 groupSizes1 = [3,3,3,3,3,1,3]
