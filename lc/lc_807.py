@@ -4,12 +4,30 @@
 
 class Solution:
     def maxIncreaseKeepingSkyline(self, grid: list[list[int]]) -> int:
+        size = len(grid)
         alt = 0
-        for i in range(len(grid)):
-            for j in range(len(grid[i])):
-                
-                pass
+
+        # Find Largest in Each Row
+        max_r = []
+        for r in range(size):
+            max_r.append(max(grid[r]))
+            
+        # Find Largest in Each Column
+        max_c = []
+        for c in range(size):
+            temp = 0
+            for r in range(size):
+                if temp < grid[r][c]:
+                    temp = grid[r][c]
+            max_c.append(temp)
+        
+        # Find Minimum of Maximum Values given Position
+        for i in range(size) :
+            for j in range(size):   
+                alt += min(max_r[i], max_c[j]) - grid[i][j]
+        
         return alt
+
 s = Solution()
 
 grid = [[3,0,8,4],[2,4,5,7],[9,2,6,3],[0,3,1,0]]
