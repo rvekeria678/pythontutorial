@@ -4,7 +4,8 @@
 
 class Solution:
     def minimumSum(self, num: int) -> int:
-        return num.conjugate()
+        ns = sorted(str(num))
+        return int(ns[0]) * 10 + int(ns[1]) * 10 + int(ns[2]) + int(ns[3])
 
 s = Solution()
 
