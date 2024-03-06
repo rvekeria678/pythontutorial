@@ -4,21 +4,20 @@
 
 class Solution:
     def isHappy(self, n: int) -> bool:
-        n_str = str(n)
-        res = 0
-
-        if (n==1):
-            return True
-        elif (n < 1):
-            return False
-        elif (n > 2 ** 32 - 1):
-            return False
-
-        for i in range(len(n_str)):
-            res += int(n_str[i]) ** 2
-    
-        return self.isHappy(res)
-
+        d = {}
+        temp = n
+        while n != 1:
+            n = 0
+            while temp > 0:
+                n += (temp % 10) ** 2
+                temp //= 10
+            print(n)
+            if n not in d:
+                d[n] = '-'
+            else:
+                return False 
+            temp = n
+        return True
 
 
 
