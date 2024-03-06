@@ -14,14 +14,23 @@ class Solution:
             right += 1
         return maximum_volume        
                
+class Solution2:
+    def maxArea(self, height: list[int]) -> int:
+        size = len(height)
+        maxVolume = 0
+        for i in range(size):
+            for j in range(i+1, size):
+                maxVolume = max(min(height[i], height[j])* (j-i), maxVolume)
+        return maxVolume
 
 s = Solution()
+s2 = Solution2()
 
 height = [1,8,6,2,5,4,8,3,7]
-print(s.maxArea(height))
+print(s2.maxArea(height))
 
 height = [1,1]
-print(s.maxArea(height))
+print(s2.maxArea(height))
 
 # Basic Logic: Find the largest value in [] with indicies that are furthest apart
 
