@@ -10,11 +10,20 @@ class MyQueue:
     def push(self, x: int) -> None:
         self.a.append(x)
     def pop(self) -> int:
-        pass
+        if not self.b:
+            self.fillQueue()
+
+        return self.b.pop()
     def peek(self) -> int:
-        pass
+        if not self.b:
+            self.fillQueue
+
+        return self.b[-1]
     def empty(self) -> bool:
-        pass
+        return not self.a and not self.b
+    def fillQueue(self):
+        while self.a:
+            self.b.append(self.a.pop())
 
 q = MyQueue()
 
