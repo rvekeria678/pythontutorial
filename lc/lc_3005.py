@@ -6,24 +6,19 @@ class Solution:
     def maxFrequencyElements(self, nums: list[int]) -> int:
         frequencies = {}
         temp = {}
-
+        last_added = 1
         for num in nums:
             if num in temp:
                 temp[num] += 1
-                if temp[num] in frequencies:
-                    frequencies[temp[num]] += 1
-                else:
-                    frequencies[temp[num]] = 1
             else:
                 temp[num] = 1
-                if temp[num] in frequencies:
-                    frequencies[temp[num]] += 1
-                else:
-                    frequencies[temp[num]] = 1
+            if temp[num] in frequencies:
+                frequencies[temp[num]] += 1
+            else:
+                frequencies[temp[num]] = 1
+                last_added = temp[num]
 
-        max_frequency = max(frequencies)
-
-        return max_frequency * frequencies[max_frequency]
+        return last_added * frequencies[last_added]
 
 s = Solution()
 
