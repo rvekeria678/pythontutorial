@@ -12,7 +12,6 @@ class MyQueue:
     def pop(self) -> int:
         if not self.b:
             self.fillQueue()
-
         return self.b.pop()
     def peek(self) -> int:
         if not self.b:
