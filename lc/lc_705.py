@@ -5,26 +5,32 @@
 class MyHashSet:
 
     def __init__(self):
-        pass
+        self.mydict = []
 
     def add(self, key: int) -> None:
-        pass
+        self.mydict.append(key)
+        self.mydict.sort()
 
     def remove(self, key: int) -> None:
-        pass
+        self.mydict.remove(key)
+        self.mydict.sort()
 
     def contains(self, key: int) -> bool:
-        pass
+        for val in self.mydict:
+            if key == val:
+                return True
+        return False
 
 # Your MyHashSet object will be instantiated and called as such:
 obj = MyHashSet()
 print(obj.add(1))
 print(obj.add(2))
 print(obj.contains(1))
-print(obj.)
-
-print(obj.remove(key))
-param_3 = obj.contains(key)
+print(obj.contains(3))
+print(obj.add(2))
+print(obj.contains(2))
+print(obj.remove(2))
+print(obj.contains(2))
         
 
 
