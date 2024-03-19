@@ -21,20 +21,42 @@ class Solution:
                 right += 1
                 left = right
         return count
+    
+class Solution2:
+    def countVowelSubstrings(self, word: str) -> int:
+        left, right, count = 0,0,0
+        vowels = 'aeiou'
+        vowel_size, size = len(vowels), len(word)
+        while left <= size - vowel_size:
+            if word[left] not in vowels:
+                left += 1
+                right = left
+            else:
+                if right < size and word[right] in vowels:
+                    right += 1
+                    if len(set(word[left:right])) >= vowel_size:
+                        count += 1
+                elif left < right:
+                    left += 1
+                    right = left + 1
+                else:
+                    right += 1
+        return count
 
 s = Solution()
+s2 = Solution2()
 
 word = "aeiouu"
-print(s.countVowelSubstrings(word))
+print(s2.countVowelSubstrings(word))
 
 word = "unicornarihan"
-print(s.countVowelSubstrings(word))
+print(s2.countVowelSubstrings(word))
 
 word = "cuaieuouac"
-print(s.countVowelSubstrings(word))
+print(s2.countVowelSubstrings(word))
 
 word = "poazaeuioauoiioaouuouaui"
-print(s.countVowelSubstrings(word))
+print(s2.countVowelSubstrings(word))
 
 
 
