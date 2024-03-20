@@ -1,0 +1,99 @@
+import random
+
+class TreeNode:
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+
+class BinaryTree:
+    def __init__(self):
+        self.root = None
+
+    def insert(self, key):
+        if not self.root:
+            self.root = TreeNode(key)
+        else:
+            self._insert_recursive(self.root, key)
+
+    def _insert_recursive(self, node, key):
+        if key < node.key:
+            if node.left:
+                self._insert_recursive(node.left, key)
+            else:
+                node.left = TreeNode(key)
+        elif key > node.key:
+            if node.right:
+                self._insert_recursive(node.right, key)
+            else:
+                node.right = TreeNode(key)
+
+class EvilHangman:
+    def __init__(self, word_length, max_guesses):
+        self.word_length = word_length
+        self.max_guesses = max_guesses
+        self.words = []
+        self.load_words()
+        self.word_families = {}
+        self.guesses = 0
+        self.current_word = None
+
+    def load_words(self):
+        with open("words.txt", "r") as file:
+            for line in file:
+                word = line.strip()
+                if len(word) == self.word_length:
+                    self.words.append(word)
+
+    def create_word_families(self, guess):
+        self.word_families = {}
+        for word in self.words:
+            key = self.get_word_family_key(word, guess)
+            if key not in self.word_families:
+                self.word_families[key] = []
+            self.word_families[key].append(word)
+
+    def get_word_family_key(self, word, guess):
+        key = ""
+        for letter in word:
+            if letter == guess:
+                key += guess
+            else:
+                key += "_"
+        return key
+
+    def get_largest_word_family(self):
+        largest_family = None
+        largest_size = 0
+        for key, family in self.word_families.items():
+            if len(family) > largest_size:
+                largest_size = len(family)
+                largest_family = family
+        return largest_family
+
+    def play(self):
+        while self.guesses < self.max_guesses:
+            guess = input("Enter your guess: ").lower()
+            if len(guess) != 1 or not guess.isalpha():
+                print("Invalid guess! Please enter a single letter.")
+                continue
+            if guess in self.current_word:
+                print("You've already guessed that letter!")
+                continue
+            self.current_word += guess
+            self.create_word_families(guess)
+            self.words = self.get_largest_word_family()
+            self.guesses += 1
+            print(f"Remaining guesses: {self.max_guesses - self.guesses}")
+            print(" ".join("_" if letter not in self.current_word else letter for letter in self.words[0]))
+            if "_" not in self.words[0]:
+                print("Congratulations! You've guessed the word.")
+                break
+        else:
+            print(f"Out of guesses! The word was: {self.words[0]}")
+
+if __name__ == "__main__":
+    word_length = int(input("Enter the length of the word: "))
+    max_guesses = int(input("Enter the maximum number of guesses: "))
+    game = EvilHangman(word_length, max_guesses)
+    game.play()
