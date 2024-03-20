@@ -11,9 +11,7 @@ class Solution:
             rank += 1
         for i in range(len(arr)):
             arr[i] = ranks[arr[i]]
-
-        return arr
-            
+        return arr 
 
 s = Solution()
 
