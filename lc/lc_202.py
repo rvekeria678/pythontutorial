@@ -19,8 +19,6 @@ class Solution:
             temp = n
         return True
 
-
-
 s = Solution()
 
 print(s.isHappy(19))
