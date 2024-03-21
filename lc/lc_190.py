@@ -4,17 +4,12 @@
 
 class Solution:
     def reverseBits(self, n: int) -> int:
-        return int(str(bin(n))[::-1],2)
-    
-class Solution2:
-    def reverseBits(self, n: int) -> int:
-        n = ~((~n) << 32)
-        return n
-    
+        binary_number = str(bin(n))[2:]
+        rev = binary_number[::-1] + '0' * (32-len(binary_number))
+        return int(rev, 2)
+       
 s = Solution()
-s2 = Solution2()
 
-#print(s.reverseBits('00000010100101000001111010011100'))
-#print(s.reverseBits('11111111111111111111111111111101'))
+print(s.reverseBits(43261596))
+print(s.reverseBits(4294967293))
 
-print(s2.reverseBits(43261596))
