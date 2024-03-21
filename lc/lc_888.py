@@ -4,7 +4,16 @@
 
 class Solution:
     def fairCandySwap(self, aliceSizes: list[int], bobSizes: list[int]) -> list[int]:
-        while sum(aliceSizes) != sum(bobSizes):
+        Asum = sum(aliceSizes)
+        Bsum = sum(bobSizes)
+        diff = (Asum - Bsum) // 2
+
+        Ahash = set(aliceSizes)
+
+        for num in bobSizes:
+            if num + diff in Ahash:
+                return [num+diff, num]
+
             
 
 s = Solution()
