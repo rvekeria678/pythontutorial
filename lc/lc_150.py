@@ -27,14 +27,30 @@ class Solution:
             if tank < 0:
                 return -1
         return start
-            
+    
+class Solution2:
+    def canCompleteCircuit(self, gas: list[int], cost: list[int]) -> int:
+            max_so_far = 0
+            max_ending_here = 0
+            start = 0
+            if sum(gas) < sum(cost): return -1
+            for i in range(len(gas)):
+                if not max_ending_here:
+                    start = i
+                max_ending_here += gas[i] - cost[i]
+                if max_so_far < max_ending_here:
+                    max_so_far = max_ending_here
+                if max_ending_here < 0:
+                    max_ending_here = 0
+            return start
 
 s = Solution()
+s2 = Solution2()
 
 gas = [1,2,3,4,5]
 cost = [3,4,5,1,2]
-print(s.canCompleteCircuit(gas, cost))
+print(s2.canCompleteCircuit(gas, cost))
 
 gas = [2,3,4]
 cost = [3,4,3]
-print(s.canCompleteCircuit(gas, cost))
+print(s2.canCompleteCircuit(gas, cost))
