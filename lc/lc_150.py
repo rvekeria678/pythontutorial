@@ -4,9 +4,29 @@
 
 class Solution:
     def canCompleteCircuit(self, gas: list[int], cost: list[int]) -> int:
+        max_so_far = 0
+        max_ending_here = 0
+        net = []
         start = 0
-        travel = 0
+        tank = 0
+        # Finds gas - cost for the ith value
         for i in range(len(gas)):
+            net.append(gas[i] - cost[i])
+        # Kadane's Algorithm (Finds the largest subarray)
+        for i in range(len(net)):
+            if not max_ending_here:
+                start = i
+            max_ending_here += net[i]
+            if max_so_far < max_ending_here:
+                max_so_far = max_ending_here
+            if max_ending_here < 0:
+                max_ending_here = 0
+        # Determins if travel is possible given best start
+        for i in range(len(net)):
+            tank += net[(start + i) % len(net)]
+            if tank < 0:
+                return -1
+        return start
             
 
 s = Solution()
