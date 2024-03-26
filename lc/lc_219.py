@@ -4,24 +4,17 @@
 
 class Solution:
     def containsNearbyDuplicates(self, nums: list[int], k: int) -> bool:
-        left, right = 0,1
-
-        if len(nums) == 1:
-            return False
-
-        while left < len(nums) - 1:
-            if right >= len(nums):
-                left += 1
-                right = left + 1
-            elif nums[left] == nums[right]:
-                if right - left <= k:
+        d = {}
+        for i in range(len(nums)):
+            if nums[i] in d:
+                if i <= d[nums[i]]:
                     return True
-                left += 1
-                right = left + 1
+                else:
+                    d[nums[i]] = i + k
             else:
-                right += 1
+                d[nums[i]] = i + k
         return False
-
+    
 s = Solution()
 
 l1 = [1,2,3,1]
