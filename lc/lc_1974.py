@@ -4,17 +4,12 @@
 
 class Solution:
     def minTimeToType(self, word: str) -> int:
-        pointer = seconds = 0
-        for character in word:
-            print(chr(pointer+97), "->", character)
-            print('Clockwise:', abs(pointer - (ord(character)-97)))
-            print('Counter Clockwise:', abs((ord('a')-97) - pointer) + (ord(character)-97))
-            
-            print("Move and Print:",min(abs(pointer - (ord(character)-97)), abs((ord('z')-97) - pointer + (ord(character)-97))) + 1)
-            
-            seconds += min(abs(pointer - (ord(character)-97)), abs(0 - pointer) + abs(ord(character)-97)-ord('z')-97) + 1
-            print('seconds: ', seconds, '\n')
-            pointer += ord(character) - 97
+        start = seconds = 0
+        for character in word:            
+            clockwise = abs(start + 97 - ord(character))
+            counter_clockwise = 26 - clockwise
+            seconds += min(clockwise, counter_clockwise) + 1
+            start = ord(character) - 97
         return seconds
 
 
@@ -24,4 +19,7 @@ word = "abc"
 print(s.minTimeToType(word))
 
 word = "bza"
+print(s.minTimeToType(word))
+
+word = "zjpc"
 print(s.minTimeToType(word))
