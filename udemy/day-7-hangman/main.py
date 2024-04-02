@@ -1,33 +1,43 @@
 # Hangman
 
 import random
+import hangmanui
 
 word_bank = ['aardvark', "baboon", "camel"]
 
 
 def driver():
-    print('''
- _                                             
-| |                                            
-| |__   __ _ _ __   __ _ _ __ ___   __ _ _ __  
-| '_ \ / _` | '_ \ / _` | '_ ` _ \ / _` | '_ \ 
-| | | | (_| | | | | (_| | | | | | | (_| | | | |
-|_| |_|\__,_|_| |_|\__, |_| |_| |_|\__,_|_| |_|
-                    __/ |                      
-                   |___/         
-          ''')
-    #TODO-1 - Randomly choose a word from the word_list and assign it to a variable called chosen_word
+    # Presets
+    stage = 0
     chosen_word = random.choice(word_bank)
+    game_complete = False
+    display = ['_'] * len(chosen_word)
+    lives = 5
 
-    #TODO-2 - Ask the user to guess a letter an assign their answer to a variable called guess. Make guess lowercase.
-    guess = input("Guess a letter: ").lower()
+    # Title Screen
+    print(hangmanui.title)
 
-    #TODO-3 - Check if the letter the user guessed (guess) is one of the letters in the chose_word
-    for character in chosen_word:
-        if guess == character:
-            print("Right")
-        else:
-            print("Wrong")
+    while not game_complete:
+        print(hangmanui.stages[stage])
+        print(' '.join(display))
+        guess = input("Guess a Letter: ")
+    
+        for position in range(len(chosen_word)):
+            if guess == chosen_word[position]:
+                display[position] = guess
+            
+        if guess not in chosen_word:
+            lives -= 1
+            stage += 1
+        
+        if '_' not in display:
+            print(hangmanui.won_screen)
+            game_complete = True
+
+        if lives <= 0:
+            print(hangmanui.lose_screen)
+            game_complete = True
+
 
 
 driver()
