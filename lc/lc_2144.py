@@ -4,13 +4,12 @@
 
 class Solution:
     def minimumCost(self, cost: list[int]) -> int:
-        cost = sorted(cost, reverse=True)
-        total = 0
-        if len(cost) <= 2: return sum(cost)
+        cost.sort()
+        res = 0
         for i in range(len(cost)):
-            if i % 3 and i:
-                total += cost[i]
-        return total
+            if i % 3 != len(cost) % 3:
+                res += cost[i]
+        return res
 
 s = Solution()
 
@@ -23,4 +22,5 @@ print(s.minimumCost(cost))
 cost = [5,5]
 print(s.minimumCost(cost))
 
-[3,3,3,1]
+cost = [3,3,3,1]
+print(s.minimumCost(cost))
