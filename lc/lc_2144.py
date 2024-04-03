@@ -4,11 +4,11 @@
 
 class Solution:
     def minimumCost(self, cost: list[int]) -> int:
-        cost = sorted(cost)
+        cost = sorted(cost, reverse=True)
         total = 0
         if len(cost) <= 2: return sum(cost)
         for i in range(len(cost)):
-            if i % 3 != 0:
+            if i % 3 and i:
                 total += cost[i]
         return total
 
@@ -22,3 +22,5 @@ print(s.minimumCost(cost))
 
 cost = [5,5]
 print(s.minimumCost(cost))
+
+[3,3,3,1]
