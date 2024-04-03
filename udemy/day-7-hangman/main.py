@@ -23,17 +23,17 @@ def driver():
             print("Letters Guessed:",' '.join(seen))
 
             guess = input("Guess a Letter: ")
-    
-            if guess not in seen:
-                seen[guess] = ''
 
             for position in range(len(chosen_word)):
                 if guess == chosen_word[position]:
                     display[position] = guess
             
-            if guess not in chosen_word:
+            if guess not in chosen_word and guess not in seen:
                 lives -= 1
                 stage += 1
+            
+            if guess not in seen:    
+                seen[guess] = ''    
         
             if '_' not in display:
                 print(hangmanui.won_screen)
