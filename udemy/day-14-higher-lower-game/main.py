@@ -29,9 +29,9 @@ def driver():
         print(f"Against B: {b['name']}, a {b['description']}, from {b['country']}.")
 
         if input("Who has more followers? Type 'A' or 'B': ").upper() != answer:
-            break
-
-        score += 1
+            still_continue = False
+        else:
+            score += 1
 
     os.system('clear')
     print(logo)
