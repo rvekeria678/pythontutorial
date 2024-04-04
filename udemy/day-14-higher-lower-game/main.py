@@ -8,18 +8,18 @@ def driver():
     # Game Presets
     still_continue = True
     score = 0
+    a = random.choice(data)
+    b = random.choice(data)
+    # Keep repicking if both A and B are the same
+    while a == b:
+        b = random.choice(data)
+
 
     # Game UI
     os.system('clear')
     print(logo)
 
     while still_continue:
-        # Generating A and B
-        a = random.choice(data)
-        b = random.choice(data)
-        # Keep repicking if both A and B are the same
-        while a == b:
-            b = random.choice(data)
         # Determining the answer
         answer = 'A' if a['follower_count'] > b['follower_count'] else 'B'
         
@@ -32,6 +32,11 @@ def driver():
             still_continue = False
         else:
             score += 1
+            print(f"You're right! Current score: {score}.")
+            a = b
+            while b == a:
+                b = random.choice(data)
+
 
     os.system('clear')
     print(logo)
