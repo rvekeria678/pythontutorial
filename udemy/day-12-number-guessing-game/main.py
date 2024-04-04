@@ -1,13 +1,16 @@
 # Number Guessing Game
-
+from art import logo
 import random
+import os
 
 def driver():
     # Global Presets
-    still_continue = False
+    still_continue = True
 
     while still_continue:
         # Game UI
+        os.system('clear')   
+        print(logo)     
         print("Welcome to the Number Guessing Game!")
         print("I'm thinking of a number between 1 and 100")
         
@@ -22,9 +25,9 @@ def driver():
             guess = int(input("Make a guess: "))
 
             if guess > key:
-                print("Too low.")
-            elif guess < key:
                 print("Too high.")
+            elif guess < key:
+                print("Too low.")
             else:
                 print(f"You have guess correctly! The number was {key}")
                 break
@@ -33,5 +36,9 @@ def driver():
                 print("Guess again.")
             else:
                 print(f"You ran out of attempts! The number was {key}")
+
+        choice = input("Would you like to play again? Type 'y' or 'n': ")
+        if choice != 'y':
+            still_continue = False
 
 driver()
