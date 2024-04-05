@@ -5,10 +5,11 @@ import random
 t = Turtle()
 colors = ['red','purple','blue','orange','pink','green','yellow','black', 'indigo', 'violet']
 t.width(10)
+t.speed('fastest')
 
 directions = [0,1,2,3]
 
-for _ in range(100):
+for _ in range(1000):
     d = random.choice(directions)    
     t.color(random.choice(colors))
     if d == 0:
