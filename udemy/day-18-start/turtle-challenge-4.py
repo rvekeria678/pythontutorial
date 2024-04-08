@@ -1,27 +1,25 @@
-from turtle import Turtle, Screen
+from turtle import Turtle, Screen, colormode
 import random
 
 
 t = Turtle()
-colors = ['red','purple','blue','orange','pink','green','yellow','black', 'indigo', 'violet']
+colormode(255)
+
 t.width(10)
 t.speed('fastest')
+directions = [0,90,180,360]
 
-directions = [0,1,2,3]
+def random_color():
+    r = random.randint(0,255)
+    g = random.randint(0,255)
+    b = random.randint(0,255)
+    return (r,g,b)
 
-for _ in range(1000):
+for _ in range(300):
     d = random.choice(directions)    
-    t.color(random.choice(colors))
-    if d == 0:
-        t.forward(30)
-    elif d == 1:
-        t.right(90)
-        t.forward(30)
-    elif d == 2:
-        t.left(90)
-        t.forward(30)
-    else:
-        t.back(30)
+    t.pencolor(random_color())
+    t.right(random.choice(directions))
+    t.forward(30)
 
 screen = Screen()
 screen.exitonclick()
