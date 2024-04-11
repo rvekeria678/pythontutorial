@@ -1,5 +1,5 @@
 from turtle import Turtle
-from config import PADDLE_WIDTH, PADDLE_HEIGHT
+from config import PADDLE_STRETCH_WIDTH, PADDLE_STRETCH_LENGTH, MOVE_DISTANCE
 
 class Paddle(Turtle):
     def __init__(self, position):
@@ -7,11 +7,11 @@ class Paddle(Turtle):
         self.penup()
         self.color('white')
         self.shape('square')
-        self.shapesize(stretch_wid=PADDLE_WIDTH,stretch_len=PADDLE_HEIGHT, outline=None)
+        self.shapesize(stretch_wid=PADDLE_STRETCH_WIDTH,stretch_len=PADDLE_STRETCH_LENGTH, outline=None)
         self.goto(position)
 
     def rise(self):
-        pass
+        self.goto(self.xcor(), self.ycor()+MOVE_DISTANCE)
 
-    def fall(self):
-        pass
+    def sink(self):
+        self.goto(self.xcor(), self.ycor()-MOVE_DISTANCE)
