@@ -29,16 +29,16 @@ while game_on:
 
     # Wall Detection
     if ball.ycor() > 280 or ball.ycor() < -280:
-        ball.bounce()
+        ball.bounce_y()
 
     # Paddle Detection
     if ball.distance(right_paddle) < 50 and ball.xcor() > 320 or ball.distance(left_paddle) < 50 and ball.xcor()  < -320:
-        ball.hit()
+        ball.bounce_x()
 
     # Out-of-Bounds Detection
     if ball.xcor() > 400 or ball.xcor() < -400:
         ball.goto(0,0)
-        ball.x_vel = 10
-        ball.y_vel = 10
+        ball.y_velocity = abs(ball.y_velocity)
+        ball.bounce_x()
 
 screen.exitonclick()
