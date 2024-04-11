@@ -12,15 +12,14 @@ screen.tracer(0)
 
 right_paddle = Paddle((RPADDLE_X_START, RPADDLE_Y_START))
 left_paddle = Paddle((LPADDLE_X_START,LPADDLE_Y_START))
-
-screen.update()
+ball = Ball()
 
 screen.listen()
 
-screen.onkeypress(key='Up', fun=right_paddle.rise)
-screen.onkeypress(key='Down', fun=right_paddle.sink)
-screen.onkeypress(key='w', fun=left_paddle.rise)
-screen.onkeypress(key='s', fun=left_paddle.sink)
+screen.onkeypress(key='Up', fun=right_paddle.go_up)
+screen.onkeypress(key='Down', fun=right_paddle.go_down)
+screen.onkeypress(key='w', fun=left_paddle.go_up)
+screen.onkeypress(key='s', fun=left_paddle.go_down)
 
 game_on = True
 while game_on:
