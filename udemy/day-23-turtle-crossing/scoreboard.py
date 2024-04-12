@@ -20,6 +20,5 @@ class Scoreboard(Turtle):
         self.update_scoreboard()
 
     def game_over(self):
-        self.clear()
         self.home()
-        self.write(f'GAME OVER\nYou made it to Level {self.level}', align="center", font=(SCOREBOARD_FONT, GAMEOVER_FONT_SIZE, GAMEOVER_WEIGHT))
+        self.write(f'GAME OVER', align="center", font=(SCOREBOARD_FONT, GAMEOVER_FONT_SIZE, GAMEOVER_WEIGHT))
