@@ -9,8 +9,13 @@ class TrafficManager:
         self.cars = []
 
     def generate_cars(self):
-        for i in range(len(self.number_of_cars)):
-            self.cars.append(Car(self.speed))
+        for _ in range(len(self.number_of_cars)):
+            random_position = (280, random.randint(-250,250))
+            self.cars.append(Car(self.speed, random_position))
+
+    def move_cars(self):
+        for car in self.cars:
+            car.move()
 
     def increase_speed(self):
         self.speed += self.speed_increment

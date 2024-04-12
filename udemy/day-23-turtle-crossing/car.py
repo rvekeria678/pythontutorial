@@ -14,9 +14,3 @@ class Car(Turtle):
     def move(self):
         new_x = self.xcor() - self.speed
         self.goto(new_x, self.position)
-    
-    def set_speed(self, speed):
-        self.speed = speed
-
-    def set_yposition(self, y_position):
-        self.position = y_position
