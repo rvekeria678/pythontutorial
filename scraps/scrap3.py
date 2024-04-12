@@ -1,4 +1,5 @@
 import os
+import time
 
 # os.getcwd() -> get current working directory
 # os.chdir(<path>) -> change directory
@@ -20,6 +21,8 @@ import os
 
 
 # Changes Directories
-os.chdir('C:/Users/Swaggy P/OneDrive\Documents/')
+#os.chdir('C:/Users/Swaggy P/OneDrive\Documents/')
 
-print(os.listdir())
+while True:
+    print(os.getpid())
+    time.sleep(1)
