@@ -12,12 +12,33 @@ turtle.shape(image)
 data_path = r'udemy\day-25-us-states-game\50_states.csv' 
 data = pandas.read_csv(data_path)
 
-correct_ans = 0
-while correct_ans < 50:
-    answer_state = screen.textinput(title=f'{correct_ans}/50 Guess the State', prompt="What's another state's name?")
+def camel(text):
+    return ' '.join(word.lower().capitalize() for word in text.split())
+
+writer = turtle.Turtle()
+writer.penup()
+writer.hideturtle()
+guessed_states = []
+while len(guessed_states) < 50:
+    answer_state = camel(screen.textinput(title=f'{len(guessed_states)}/50 Guess the State', prompt="What's another state's name?"))
+
+    if answer_state == "Exit":
+        break
     
-    if len(data[data['state'] == answer_state]):
-        correct_ans += 1
-    print(correct_ans)
+    answer_state = data[data['state'] == answer_state]
+    if len(answer_state):
+        guessed_states.append(answer_state.state.iloc[0])
+        x = int(answer_state['x'])
+        y = int(answer_state['y'])
+        writer.goto(x,y)
+        writer.write(answer_state.state.iloc[0])
+
+missing_states = []
+for state in data.state:
+    if state not in guessed_states:
+        missing_states.append(state)
+
+new_data = pandas.DataFrame(missing_states)
+new_data.to_csv('states_to_learn.csv')
 
 turtle.mainloop()
