@@ -19,6 +19,7 @@ writer = turtle.Turtle()
 writer.penup()
 writer.hideturtle()
 guessed_states = []
+all_states = data.state.to_list()
 while len(guessed_states) < 50:
     answer_state = camel(screen.textinput(title=f'{len(guessed_states)}/50 Guess the State', prompt="What's another state's name?"))
 
@@ -33,10 +34,7 @@ while len(guessed_states) < 50:
         writer.goto(x,y)
         writer.write(answer_state.state.iloc[0])
 
-missing_states = []
-for state in data.state:
-    if state not in guessed_states:
-        missing_states.append(state)
+missing_states = [state for state in all_states if state not in missing_states]
 
 new_data = pandas.DataFrame(missing_states)
 new_data.to_csv('states_to_learn.csv')
