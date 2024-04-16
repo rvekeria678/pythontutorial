@@ -1,11 +1,11 @@
 import random
 
-lower_letters = 'abcdefghijklmnopqrstuvwxyz'
-upper_letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-numbers = '1234567890'
-special_symbols = '!@#$%^&*()_+={}[]|'
+LOWERCASE_LETTERS = 'abcdefghijklmnopqrstuvwxyz'
+UPPERCASE_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+NUMBERS = '1234567890'
+SPECIAL_SYMBOLS = '!@#$%^&*()_+={}[]|'
 
-characters = (upper_letters, lower_letters, numbers, special_symbols)
+characters = (UPPERCASE_LETTERS, LOWERCASE_LETTERS, NUMBERS, SPECIAL_SYMBOLS)
 
 def generate_password(password_length):
     password = ""
@@ -13,4 +13,4 @@ def generate_password(password_length):
         password += random.choice(random.choice(characters))
     return password
 
-print(generate_password(20))
+print(generate_password(40))
