@@ -1,6 +1,5 @@
 from tkinter import Label, Button, Image, Tk, Canvas, PhotoImage
-import time
-import os
+import math
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
 RED = "#e7305b"
@@ -10,13 +9,33 @@ FONT_NAME = "Courier"
 WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
-CHECK = '✔'
+MARK = '✔'
+reps = 0
+timer = None
 
 # ---------------------------- TIMER RESET ------------------------------- # 
+def reset_timer():
+    global reps
+    reps = 0
+    window.after_cancel(timer)
+    title_label.config(text='Timer')
+    canvas.itemconfig(timer_text, text='00:00')
+    sessions_label.config(text='')
 
+    
 # ---------------------------- TIMER MECHANISM ------------------------------- # 
 def start_timer():
-    count_down(0,LONG_BREAK_MIN)
+    global reps
+    reps += 1
+    if reps % 8 == 0:
+        title_label.config(text="Break", fg=RED)
+        count_down(LONG_BREAK_MIN)
+    elif reps % 2 == 0:
+        title_label.config(text="Break", fg=PINK)
+        count_down(SHORT_BREAK_MIN)
+    else:
+        title_label.config(text="Work", fg=GREEN)
+        count_down(WORK_MIN)
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- # 
 def count_down(minutes = 0, seconds = 0):
     if seconds < 0:
@@ -25,7 +44,15 @@ def count_down(minutes = 0, seconds = 0):
     clock_display = f"{str(minutes).zfill(2)}:{str(seconds).zfill(2)}"
     canvas.itemconfig(timer_text, text=clock_display)
     if minutes + seconds > 0:
-        window.after(1000, count_down, minutes, seconds - 1)
+        global timer
+        timer = window.after(1000, count_down, minutes, seconds - 1)
+    else:
+        marks = '' 
+        for rep in range(reps):
+            if rep % 2 == 0:
+                marks += MARK      
+        sessions_label.config(text=marks)
+        start_timer()
 
 # ---------------------------- UI SETUP ------------------------------- #
 
@@ -45,10 +72,10 @@ title_label.grid(row=0,column=1)
 start_button = Button(text="Start", highlightthickness=0, command=start_timer)
 start_button.grid(row=2, column=0)
 
-reset_button = Button(text="Reset", highlightthickness=0)
+reset_button = Button(text="Reset", highlightthickness=0, command=reset_timer)
 reset_button.grid(row=2, column=2)
 
-sessions_label = Label(text=CHECK, bg=YELLOW, fg=GREEN, font=(FONT_NAME,15,'bold'))
+sessions_label = Label(bg=YELLOW, fg=GREEN, font=(FONT_NAME,15,'bold'))
 sessions_label.grid(row=3, column=1)
 
 window.mainloop()
