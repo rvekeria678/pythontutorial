@@ -69,10 +69,10 @@ canvas.grid(row=1,column=1)
 title_label = Label(text="Timer", bg=YELLOW, fg=GREEN, font=(FONT_NAME,40,'bold'))
 title_label.grid(row=0,column=1)
 
-start_button = Button(text="Start", highlightthickness=0, command=start_timer)
+start_button = Button(text="Start", highlightthickness=0, command=start_timer, padx=15, pady=6)
 start_button.grid(row=2, column=0)
 
-reset_button = Button(text="Reset", highlightthickness=0, command=reset_timer)
+reset_button = Button(text="Reset", highlightthickness=0, command=reset_timer, padx=15, pady=6)
 reset_button.grid(row=2, column=2)
 
 sessions_label = Label(bg=YELLOW, fg=GREEN, font=(FONT_NAME,15,'bold'))
