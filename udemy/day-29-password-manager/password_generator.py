@@ -12,5 +12,3 @@ def generate_password(password_length):
     for _ in range(password_length):
         password += random.choice(random.choice(characters))
     return password
-
-print(generate_password(40))
