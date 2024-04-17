@@ -1,4 +1,5 @@
 from tkinter import Tk, Label, Button, Entry, Canvas, PhotoImage, END, messagebox
+import pyperclip
 # --------------------------- CONSTANTS ------------------------------- #
 WHITE = "#FFFFFF"
 BLUE = "#9DA3FF"
@@ -14,7 +15,9 @@ DATA_FILE_PATH = r'C:\Users\rveke\OneDrive\Documents\GitHub\pythontutorial\udemy
 from password_generator import generate_password
 def fill_password():
     password_input.delete(0,END)
-    password_input.insert(END,generate_password(GENERATED_PASSWORD_LENGTH))
+    new_password = generate_password(GENERATED_PASSWORD_LENGTH)
+    password_input.insert(END,new_password)
+    pyperclip.copy(new_password)
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def save_password():
     website, user, password = website_input.get(), username_input.get(), password_input.get()
