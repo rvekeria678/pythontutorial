@@ -27,7 +27,17 @@ class PasswordManager(Tk):
             self.website_label = Label(text="Website:")
             self.email_username_label = Label(text="Email/Username:")
             self.password_label = Label(text="Password:")
-            self.generate_button = Button
+
+            self.search_button = Button(text="Search", 
+                                      width=14, 
+                                      bg=colors.WHITE,
+                                      font=FONT,
+                                      padx=10,
+                                      activebackground=colors.LIGHT_RED,
+                                      activeforeground=colors.WHITE,
+                                      relief="groove")
+            self.search_button.bind("<Enter>", self.on_enter)
+            self.search_button.bind("<Leave>", self.on_leave)                       
             self.generate_button = Button(text="Generate Password", 
                                       width=14, 
                                       bg=colors.WHITE,
@@ -66,10 +76,11 @@ class PasswordManager(Tk):
         self.email_username_label.grid(row=2,column=0)
         self.password_label.grid(row=3,column=0)
 
-        self.website_input.grid(row=1,column=1,columnspan=2, pady=5, sticky='ew')
+        self.website_input.grid(row=1,column=1,columnspan=1, pady=5, sticky='ew')
         self.username_input.grid(row=2,column=1, columnspan=2, pady=5, sticky='ew')
         self.password_input.grid(row=3, column=1, columnspan=1, pady=5, sticky='ew')
 
+        self.search_button.grid(row=1,column=2, padx=5)
         self.generate_button.grid(row=3,column=2, padx=5)
         self.add_button.grid(row=4,column=1, columnspan=2, pady=7, sticky='ew')
     
@@ -87,6 +98,15 @@ class PasswordManager(Tk):
 
     def missing_resources_message(self):
         messagebox.showerror(title="Password Manager", message="Oops. Missing Resources ):")
+
+    def file_missing(self):
+        messagebox.showinfo(title="Password manager", message='File Does Not Exist')
+
+    def website_credentials(self, username, password):
+        messagebox.showinfo(title="Password Manager", message=f"{self.website_input.get()} Credentials:\nEmail: {username}\nPassword: {password}")
+
+    def website_not_found_message(self):
+        messagebox.showinfo(title="Password Manager", message=f"You do not have credentials for {self.website_input.get()}.")
 
     def clear_website_input(self):
         self.website_input.delete(0,END)

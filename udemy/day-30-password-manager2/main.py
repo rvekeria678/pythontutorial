@@ -11,7 +11,20 @@ def fill_password():
     new_password = generate_password(GENERATED_PASSWORD_LENGTH)
     pm.fill_password_input(new_password)
     pyperclip.copy(new_password)
+# ----- SEARCH ----- #
+def find_password():
+    try:
+        with open(DATA_FILE_PATH, 'r') as data_file:
+            data = json.load(data_file)
+            website = pm.website_input.get()
+            if website in data:
+                pyperclip.copy(data[website]['password'])
+                pm.website_credentials(data[website]['email'], data[website]['password'])
+            else:
+                pm.website_not_found_message()
 
+    except FileNotFoundError:
+        pm.file_missing()
 # ----- SAVE PASSWORD ----- #
 def save_password():
     website, user, password = pm.website_input.get(), pm.username_input.get(), pm.password_input.get()
@@ -47,5 +60,6 @@ pm = PasswordManager()
 # ----- BIND OPERATIONS ----- #
 pm.add_button.config(command=save_password)
 pm.generate_button.config(command=fill_password)
+pm.search_button.config(command=find_password)
 
 pm.mainloop()
