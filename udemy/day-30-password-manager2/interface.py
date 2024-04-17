@@ -4,7 +4,7 @@ import colors
 # ----- CONSTANTS ----- #
 FONT = ('Arial', 10, 'normal')
 INPUT_FONT = ('Arial', 13)
-LOCK_IMG_PATH = r'C:\Users\rveke\OneDrive\Documents\GitHub\pythontutorial\udemy\day-30-password-manager2\logo3.png'
+LOCK_IMG_PATH = r'C:\Users\rveke\OneDrive\Documents\GitHub\pythontutorial\udemy\day-30-password-manager2\logo.png'
 
 class PasswordManager(Tk):
     def __init__(self):
