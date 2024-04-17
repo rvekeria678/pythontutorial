@@ -12,25 +12,20 @@ class PasswordManager(Tk):
         self.title("Password Manager")
         self.config(padx=50,pady=50,bg=colors.WHITE)
         self.option_add('*Label.Background', colors.WHITE)
-        
-        self.canvas = Canvas(width=200,height=200,bg=colors.WHITE, highlightthickness=0)
-        self.lock_img = PhotoImage(file=LOCK_IMG_PATH)
-        self.canvas.create_image(140,100, image=self.lock_img)
-        self.canvas.grid(row=0,column=1)
 
         self.create_widgets()
         self.arrange_widgets()
 
-
-        self.mainloop()
-
     def create_widgets(self):
+        self.canvas = Canvas(width=200,height=200,bg=colors.WHITE, highlightthickness=0)
+        self.lock_img = PhotoImage(file=LOCK_IMG_PATH)
+        self.canvas.create_image(140,100, image=self.lock_img)
+
         self.website_label = Label(text="Website:")
         self.email_username_label = Label(text="Email/Username:")
         self.password_label = Label(text="Password:")
         self.generate_button = Button
-        self.generate_button = Button(command=self.on_leave,
-                                      text="Generate Password", 
+        self.generate_button = Button(text="Generate Password", 
                                       width=14, 
                                       bg=colors.WHITE,
                                       font=FONT,
@@ -40,8 +35,7 @@ class PasswordManager(Tk):
                                       relief="groove")
         self.generate_button.bind("<Enter>", self.on_enter)
         self.generate_button.bind("<Leave>", self.on_leave)
-        self.add_button = Button(command=self.on_leave,
-                                 text="Add", 
+        self.add_button = Button(text="Add", 
                                  width=36, 
                                  bg=colors.WHITE,
                                  font=FONT,
@@ -63,6 +57,8 @@ class PasswordManager(Tk):
                                     font=INPUT_FONT,
                                     relief='solid')
     def arrange_widgets(self):
+        self.canvas.grid(row=0,column=1)
+
         self.website_label.grid(row=1,column=0)
         self.email_username_label.grid(row=2,column=0)
         self.password_label.grid(row=3,column=0)
@@ -86,10 +82,10 @@ class PasswordManager(Tk):
         messagebox.showerror(title="Password Manager", message="Opps! There is some missing information!")
 
     def clear_website_input(self):
-        self.website_input.destroy(0,END)
+        self.website_input.delete(0,END)
     
     def clear_password_input(self):
-        self.password_input.destroy(0,END)
+        self.password_input.delete(0,END)
 
     def fill_password_input(self, password):
         self.password_input.insert(END, password)

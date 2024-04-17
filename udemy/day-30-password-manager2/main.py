@@ -9,6 +9,7 @@ def fill_password():
     pm__ui.clear_password_input()
     new_password = generate_password(GENERATED_PASSWORD_LENGTH)
     pm__ui.fill_password_input(new_password)
+    pyperclip.copy(new_password)
 
 # ----- SAVE PASSWORD ----- #
 def save_password():
@@ -28,4 +29,6 @@ pm__ui = PasswordManager()
 
 # ----- BIND OPERATIONS ----- #
 pm__ui.add_button.config(command=save_password)
-pm__ui.generate_button.config(command=generate_password)
+pm__ui.generate_button.config(command=fill_password)
+
+pm__ui.mainloop()
