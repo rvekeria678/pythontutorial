@@ -18,14 +18,17 @@ class PasswordManager(Tk):
 
     def create_widgets(self):
         self.canvas = Canvas(width=200,height=200,bg=colors.WHITE, highlightthickness=0)
-        self.lock_img = PhotoImage(file=LOCK_IMG_PATH)
-        self.canvas.create_image(140,100, image=self.lock_img)
-
-        self.website_label = Label(text="Website:")
-        self.email_username_label = Label(text="Email/Username:")
-        self.password_label = Label(text="Password:")
-        self.generate_button = Button
-        self.generate_button = Button(text="Generate Password", 
+        try:
+            self.lock_img = PhotoImage(file=LOCK_IMG_PATH)
+            self.canvas.create_image(140,100, image=self.lock_img)
+        except:
+            self.canvas.create_rectangle(0,0,250,150,fill=colors.RED)
+        finally:
+            self.website_label = Label(text="Website:")
+            self.email_username_label = Label(text="Email/Username:")
+            self.password_label = Label(text="Password:")
+            self.generate_button = Button
+            self.generate_button = Button(text="Generate Password", 
                                       width=14, 
                                       bg=colors.WHITE,
                                       font=FONT,
@@ -33,27 +36,27 @@ class PasswordManager(Tk):
                                       activebackground=colors.LIGHT_RED,
                                       activeforeground=colors.WHITE,
                                       relief="groove")
-        self.generate_button.bind("<Enter>", self.on_enter)
-        self.generate_button.bind("<Leave>", self.on_leave)
-        self.add_button = Button(text="Add", 
+            self.generate_button.bind("<Enter>", self.on_enter)
+            self.generate_button.bind("<Leave>", self.on_leave)
+            self.add_button = Button(text="Add", 
                                  width=36, 
                                  bg=colors.WHITE,
                                  font=FONT,
                                  activebackground=colors.LIGHT_RED,
                                  activeforeground=colors.WHITE,
                                  relief='groove')
-        self.add_button.bind("<Enter>", self.on_enter)
-        self.add_button.bind("<Leave>", self.on_leave)
+            self.add_button.bind("<Enter>", self.on_enter)
+            self.add_button.bind("<Leave>", self.on_leave)
 
-        self.website_input = Entry(width=35,
+            self.website_input = Entry(width=35,
                                    font=INPUT_FONT,
                                    relief='solid',)
-        self.website_input.focus()
-        self.username_input = Entry(width=35,
+            self.website_input.focus()
+            self.username_input = Entry(width=35,
                                     font=INPUT_FONT,
                                     relief='solid')
-        self.username_input.insert(END,'rvekeria678@gmail.com')
-        self.password_input = Entry(width=21,
+            self.username_input.insert(END,'rvekeria678@gmail.com')
+            self.password_input = Entry(width=21,
                                     font=INPUT_FONT,
                                     relief='solid')
     def arrange_widgets(self):
@@ -78,8 +81,12 @@ class PasswordManager(Tk):
     
     def confirm_entry_message(self):
         return messagebox.askokcancel(title=self.website_input.get(),message=f'These are the details entered: \nEmail: {self.username_input.get()}\nPassword: {self.password_input.get()}\nIs it ok to save?')
+    
     def missing_info_message(self):
         messagebox.showerror(title="Password Manager", message="Opps! There is some missing information!")
+
+    def missing_resources_message(self):
+        messagebox.showerror(title="Password Manager", message="Oops. Missing Resources ):")
 
     def clear_website_input(self):
         self.website_input.delete(0,END)
