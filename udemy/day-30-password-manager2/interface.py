@@ -1,10 +1,10 @@
-from tkinter import Tk, Label, Button, Entry, PhotoImage, Canvas, END, messagebox
+from tkinter import Tk, Label, Button, Entry, PhotoImage, Canvas, END, messagebox, TclError
 import colors
 
+# ----- CONSTANTS ----- #
 FONT = ('Arial', 10, 'normal')
 INPUT_FONT = ('Arial', 13)
-
-LOCK_IMG_PATH = r'C:\Users\rveke\OneDrive\Documents\GitHub\pythontutorial\udemy\day-30-password-manager2\logo.png'
+LOCK_IMG_PATH = r'C:\Users\rveke\OneDrive\Documents\GitHub\pythontutorial\udemy\day-30-password-manager2\logo3.png'
 
 class PasswordManager(Tk):
     def __init__(self):
@@ -21,7 +21,7 @@ class PasswordManager(Tk):
         try:
             self.lock_img = PhotoImage(file=LOCK_IMG_PATH)
             self.canvas.create_image(140,100, image=self.lock_img)
-        except:
+        except TclError:
             self.canvas.create_rectangle(0,0,250,150,fill=colors.RED)
         finally:
             self.website_label = Label(text="Website:")
