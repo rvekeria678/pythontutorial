@@ -1,7 +1,10 @@
 from tkinter import Tk, Label, Button, Entry, PhotoImage, Canvas, END, messagebox
 import colors
 
-LOCK_IMG_PATH = './logo.png'
+FONT = ('Arial', 10, 'normal')
+INPUT_FONT = ('Arial', 13)
+
+LOCK_IMG_PATH = r'C:\Users\rveke\OneDrive\Documents\GitHub\pythontutorial\udemy\day-30-password-manager2\logo.png'
 
 class PasswordManager(Tk):
     def __init__(self):
@@ -10,20 +13,83 @@ class PasswordManager(Tk):
         self.config(padx=50,pady=50,bg=colors.WHITE)
         self.option_add('*Label.Background', colors.WHITE)
         
-        #self.canvas = Canvas(width=200,height=200,bg=colors.WHITE, highlightthickness=0)
-        #self.lock_img = PhotoImage(LOCK_IMG_PATH)
-        #self.canvas.create_image(140,100, image=self.lock_img)
-        #self.canvas.grid(row=0,column=1)
+        self.canvas = Canvas(width=200,height=200,bg=colors.WHITE, highlightthickness=0)
+        self.lock_img = PhotoImage(file=LOCK_IMG_PATH)
+        self.canvas.create_image(140,100, image=self.lock_img)
+        self.canvas.grid(row=0,column=1)
 
+        self.create_widgets()
+        self.arrange_widgets()
 
 
         self.mainloop()
 
+    def create_widgets(self):
+        self.website_label = Label(text="Website:")
+        self.email_username_label = Label(text="Email/Username:")
+        self.password_label = Label(text="Password:")
+        self.generate_button = Button
+        self.generate_button = Button(command=self.on_leave,
+                                      text="Generate Password", 
+                                      width=14, 
+                                      bg=colors.WHITE,
+                                      font=FONT,
+                                      padx=10,
+                                      activebackground=colors.LIGHT_RED,
+                                      activeforeground=colors.WHITE,
+                                      relief="groove")
+        self.generate_button.bind("<Enter>", self.on_enter)
+        self.generate_button.bind("<Leave>", self.on_leave)
+        self.add_button = Button(command=self.on_leave,
+                                 text="Add", 
+                                 width=36, 
+                                 bg=colors.WHITE,
+                                 font=FONT,
+                                 activebackground=colors.LIGHT_RED,
+                                 activeforeground=colors.WHITE,
+                                 relief='groove')
+        self.add_button.bind("<Enter>", self.on_enter)
+        self.add_button.bind("<Leave>", self.on_leave)
+
+        self.website_input = Entry(width=35,
+                                   font=INPUT_FONT,
+                                   relief='solid',)
+        self.website_input.focus()
+        self.username_input = Entry(width=35,
+                                    font=INPUT_FONT,
+                                    relief='solid')
+        self.username_input.insert(END,'rvekeria678@gmail.com')
+        self.password_input = Entry(width=21,
+                                    font=INPUT_FONT,
+                                    relief='solid')
+    def arrange_widgets(self):
+        self.website_label.grid(row=1,column=0)
+        self.email_username_label.grid(row=2,column=0)
+        self.password_label.grid(row=3,column=0)
+
+        self.website_input.grid(row=1,column=1,columnspan=2, pady=5, sticky='ew')
+        self.username_input.grid(row=2,column=1, columnspan=2, pady=5, sticky='ew')
+        self.password_input.grid(row=3, column=1, columnspan=1, pady=5, sticky='ew')
+
+        self.generate_button.grid(row=3,column=2, padx=5)
+        self.add_button.grid(row=4,column=1, columnspan=2, pady=7, sticky='ew')
+    
     def on_enter(self, event):
         event.widget.config(bg=colors.RED, fg=colors.WHITE, cursor='hand2')
 
     def on_leave(self, event):
         event.widget.config(bg=colors.WHITE, fg=colors.BLACK, cursor='arrow')
+    
+    def confirm_entry_message(self):
+        return messagebox.askokcancel(title=self.website_input.get(),message=f'These are the details entered: \nEmail: {self.username_input.get()}\nPassword: {self.password_input.get()}\nIs it ok to save?')
+    def missing_info_message(self):
+        messagebox.showerror(title="Password Manager", message="Opps! There is some missing information!")
 
+    def clear_website_input(self):
+        self.website_input.destroy(0,END)
+    
+    def clear_password_input(self):
+        self.password_input.destroy(0,END)
 
-my_passwordmanager = PasswordManager()
+    def fill_password_input(self, password):
+        self.password_input.insert(END, password)
