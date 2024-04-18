@@ -4,6 +4,8 @@ CURRENT_DIR = os.path.dirname(__file__)
 BACKGROUND_COLOR = "#B1DDC6"
 WHITE = "#FFFFFF"
 DARK_GREEN = "#1D5B20"
+BLACK = "#000000"
+
 CARD_FRONT_IMG_PATH = os.path.join(CURRENT_DIR, './images/card_front.png')
 CARD_BACK_IMG_PATH = os.path.join(CURRENT_DIR, './images/card_back.png')
 RIGHT_IMG_PATH = os.path.join(CURRENT_DIR, './images/right.png')

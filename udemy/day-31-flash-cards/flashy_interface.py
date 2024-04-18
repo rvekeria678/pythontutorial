@@ -1,5 +1,5 @@
 from tkinter import Tk, Button, Canvas, PhotoImage, Label, ALL, TclError
-from config import BACKGROUND_COLOR, WHITE, CARD_FRONT_IMG_PATH, CARD_BACK_IMG_PATH, TITLE_FONT, WORD_FONT, DARK_GREEN, RIGHT_IMG_PATH, WRONG_IMG_PATH
+from config import BACKGROUND_COLOR, WHITE, CARD_FRONT_IMG_PATH, CARD_BACK_IMG_PATH, TITLE_FONT, WORD_FONT, RIGHT_IMG_PATH, WRONG_IMG_PATH, BLACK
 
 class Flashy_UI(Tk):
     def __init__(self):
@@ -33,11 +33,13 @@ class Flashy_UI(Tk):
             self.title = self.card_face.create_text(400,150,
                                                  text='English',
                                                  font=TITLE_FONT,
-                                                 anchor='center')
+                                                 anchor='center',
+                                                 fill=WHITE)
             self.word = self.card_face.create_text(400,263,
                                                 text='Word', 
                                                 font=WORD_FONT,
-                                                anchor='center')
+                                                anchor='center',
+                                                fill=WHITE)
 
     def arrange_widgets(self):
         self.card_face.grid(row=0,column=0, columnspan=2)
@@ -47,11 +49,11 @@ class Flashy_UI(Tk):
     def flip(self, word):
         if self.card_state:
             self.card_face.itemconfig(self.card_image, image=self.card_back)
-            self.card_face.itemconfig(self.title, text="English")
-            self.card_face.itemconfig(self.word, text=word)
+            self.card_face.itemconfig(self.title, text="English", fill=WHITE)
+            self.card_face.itemconfig(self.word, text=word, fill=WHITE)
             self.card_state = False
         else:
             self.card_face.itemconfig(self.card_image, image=self.card_front)
-            self.card_face.itemconfig(self.title, text="French")
-            self.card_face.itemconfig(self.word, text=word)
+            self.card_face.itemconfig(self.title, text="French", fill=BLACK)
+            self.card_face.itemconfig(self.word, text=word, fill=BLACK)
             self.card_state = True

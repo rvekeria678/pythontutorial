@@ -1,5 +1,6 @@
 from flashy_interface import Flashy_UI
 from dictionary import DATA
+from config import CARD_FRONT_IMG_PATH, CARD_BACK_IMG_PATH, BLACK, WHITE
 import random
 import sys
 
@@ -8,21 +9,30 @@ DATA_SIZE = len(DATA['French'])
 # ----- GLOBALS --------------- #
 incorrect = 0
 pile = {i for i in range(DATA_SIZE)}
-selected = random.choice(list(pile))
-# ----- SELECT WORD LOGIC ----- #
-def select_word():
-    return random.choice(pile)
+selected = -1
+# ----- NEXT CARD LOGIC ------- #
+def next_card():
+    global selected
+    selected = random.choice(list(pile))
+    flashy.card_face.itemconfig(flashy.card_image, CARD_FRONT_IMG_PATH)
+    flashy.card_face.itemconfig(flashy.title, text = 'French', fill = BLACK)
+    flashy.word.face.itemconfig(flashy.word, DATA['French'][selected], fill = BLACK)
+
+# ----- FLIP CARD LOGIC ------- #
+def flip_card():
+    flashy.card_face.itemconfig(flashy.card_image, CARD_FRONT_IMG_PATH)
+    flashy.card_face.itemconfig(flashy.title, text = 'English', fill = WHITE)
+    flashy.word.face.itemconfig(flashy.word, DATA['English'][selected], fill = WHITE)
 # ----- CLICKED LOGIC --------- #
 def clicked(event, correct):
     global incorrect
-    global selected
+    
     if not correct: incorrect += 1
     else: pile.discard(selected)
-    if pile: selected = random.choice(list(pile))
-    else: sys.exit(0)
-    flashy.flip(DATA['French'][selected])
-    flashy.after(3000, flashy.flip, DATA['English'][selected])
-    print(len(pile))
+    
+    if not pile: sys.exit(0)
+    
+    next_card()
 
 # ----- ENABLE BUTTONS -------- #
 def enable_buttons():
@@ -35,10 +45,10 @@ def disable_buttons():
 # ----- USER INTERFACE -------- #
 flashy = Flashy_UI()
 
-flashy.card_face.itemconfig(flashy.word, text=DATA['English'][selected])
-
 # ----- UI BINDINGS ----------- #
 flashy.right.bind('<Button-1>',func=lambda event: clicked(event, 1))
 flashy.wrong.bind('<Button-1>',func=lambda event: clicked(event, 0))
+
+flashy.wrong.event_generate('<Button-1>')
 
 flashy.mainloop()
