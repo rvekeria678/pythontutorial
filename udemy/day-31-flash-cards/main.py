@@ -1,1 +1,7 @@
-from config import BACKGROUND_COLOR
+from flashy_interface import Flashy_UI
+
+flashy = Flashy_UI()
+
+#
+
+flashy.mainloop()
