@@ -45,15 +45,3 @@ class Flashy_UI(Tk):
         self.card_face.grid(row=0,column=0, columnspan=2)
         self.right.grid(row=1,column=0, pady=20)
         self.wrong.grid(row=1, column=1, pady=20)
-
-    def flip(self, word):
-        if self.card_state:
-            self.card_face.itemconfig(self.card_image, image=self.card_back)
-            self.card_face.itemconfig(self.title, text="English", fill=WHITE)
-            self.card_face.itemconfig(self.word, text=word, fill=WHITE)
-            self.card_state = False
-        else:
-            self.card_face.itemconfig(self.card_image, image=self.card_front)
-            self.card_face.itemconfig(self.title, text="French", fill=BLACK)
-            self.card_face.itemconfig(self.word, text=word, fill=BLACK)
-            self.card_state = True
