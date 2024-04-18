@@ -12,3 +12,4 @@ TITLE_FONT = ("Ariel", 40, 'italic')
 WORD_FONT = ('Ariel', 60, 'bold')
 WAIT_TIME = 3000
 DICTIONARY_PATH = os.path.join(CURRENT_DIR, './data/french_words.csv')
+TO_LEARN_PATH = r'\to_learn.py'
