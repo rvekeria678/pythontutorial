@@ -14,4 +14,4 @@ with smtplib.SMTP('smtp.gmail.com', port=PORT, timeout=TIMEOUT) as connection:
     if current_date.weekday() == 4:
         with open(os.path.join(os.path.dirname(__file__), './quotes.txt')) as data_file:
             data = data_file.readlines()
-            connection.sendmail(from_addr=EMAIL, to_addrs=EMAIL, msg=f'Subject=Motivational Message\n\n{random.choice(data)}')
+            connection.sendmail(from_addr=EMAIL, to_addrs=EMAIL, msg=f'Subject:Monday Motivational\n\n{random.choice(data)}')
