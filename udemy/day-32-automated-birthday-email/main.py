@@ -34,7 +34,7 @@ def get_bdays():
     else: return birthday_data
 # -- LETTER TEMPLATES --- #
 def generate_letter():
-    path = os.path.join(CURRENT_DIR, f"./letter/templates/{random.choice(list(LETTER_PATHS))}")
+    path = os.path.join(CURRENT_DIR, f"./letter_templates/{random.choice(list(LETTER_PATHS))}")
     with open(path) as letter_data:
         return letter_data.read()
 
@@ -42,7 +42,7 @@ current_date = dt.datetime.now()
 
 for _, row in get_bdays().iterrows():
     if row['month'] == current_date.month and row['day'] == current_date.day:
-        letter = generate_letter().replace('[name]', row['name'])
+        letter = generate_letter().replace('[NAME]', row['name'])
         with smtplib.SMTP(STMP_DATA['@gmail'], port=PORT, timeout=TIMEOUT) as connection:
             connection.starttls()
             connection.login(user=EMAIL, password=PASSWORD)
