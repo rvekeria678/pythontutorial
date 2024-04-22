@@ -2,6 +2,9 @@ import os
 
 THEME_COLOR = "#375362"
 DISPLAY_COLOR = "#FFFFFF"
+RIGHT_COLOR = "#27FF00"
+WRONG_COLOR = "#FF7B7B"
+
 TRIVIA_URL = 'https://opentdb.com/api.php'
 
 Q_FONT = ('Arial', 16, 'italic')
