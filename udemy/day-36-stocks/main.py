@@ -20,7 +20,7 @@ def major_shift(stock: str):
     if 'Information' in stock_data: return True
     dates = list(stock_data['Time Series (Daily)'].keys())
     first_close = float(stock_data['Time Series (Daily)'][dates[1]]['4. close'])
-    second_close = float(stock_data['Time Series (Daily)'][dates[6]]['4. close'])
+    second_close = float(stock_data['Time Series (Daily)'][dates[0]]['4. close'])
     difference = abs(first_close-second_close)
     return (difference / first_close) >= SHIFT_LIMIT
 
