@@ -1,11 +1,11 @@
-from config import STOCK, COMPANY_NAME, AV_URL, NEWSAPI_URL, EMAIL_PORT, EMAIL_TIMEOUT
+from config import STOCK, COMPANY_NAME, AV_URL, NEWSAPI_URL, EMAIL_PORT, EMAIL_TIMEOUT, SHIFT_LIMIT
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
 import os, requests, smtplib
 
 load_dotenv()
 
-def strong_growth(stock: str):
+def major_shift(stock: str):
     parameters = {
         "function":"TIME_SERIES_DAILY",
         "symbol":stock,
@@ -22,9 +22,9 @@ def strong_growth(stock: str):
     first_close = float(stock_data['Time Series (Daily)'][dates[1]]['4. close'])
     second_close = float(stock_data['Time Series (Daily)'][dates[6]]['4. close'])
     difference = abs(first_close-second_close)
-    return (difference / first_close) >= 0.05
+    return (difference / first_close) >= SHIFT_LIMIT
 
-if strong_growth(stock=STOCK):
+if major_shift(stock=STOCK):
     parameters = {
         'q': COMPANY_NAME,
         "from":str((datetime.now()-timedelta(days=3)).date()),
