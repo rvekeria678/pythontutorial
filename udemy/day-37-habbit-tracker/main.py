@@ -1,30 +1,37 @@
 import os, requests
 from dotenv import load_dotenv
+from datetime import datetime
+from config import TOKEN, USERNAME, GRAPH_ID, GRAPH_NAME, ATOS, NM, PIXELA_EP, GRAPH_EP, PIXEL_POST_EP, HEADERS
 
 load_dotenv()
 
-pixela_endpoint = 'https://pixe.la/v1/users'
-
 user_params = {
-    "token": os.environ['TOKEN'],
-    "username": os.environ['PIXELA_USERNAME'],
-    "agreeTermsOfService": "yes",
-    "notMinor": "yes"
+    "token": TOKEN,
+    "username": USERNAME,
+    "agreeTermsOfService": ATOS,
+    "notMinor": NM
 }
 
-#response = requests.post(url=pixela_endpoint, json=user_params)
+#response = requests.post(url=PIXELA_EP, json=user_params)
 #print(response.text)
 
-graph_endpoint = f"{pixela_endpoint}/{os.environ["PIXELA_USERNAME"]}/graphs"
-
 graph_config = {
-    "id": "graph1",
-    "name": "Cycling Graph",
+    "id": GRAPH_ID,
+    "name": GRAPH_NAME,
     "unit": "Km",
     "type": "float",
     "color": "ajisai"
 }
 
-response = requests.post(url=graph_endpoint,json=graph_config, headers=os.environ['TOKEN'])
+#response = requests.post(url=GRAPH_EP,json=graph_config, headers=HEADERS)
+#print(response.text)
+today = datetime.now()
+today_YYYYMMDD = today.strftime('%Y%m%d')
 
-print(response.text)
+pixel_config = {
+    "date":today_YYYYMMDD,
+    "quantity":'4.5',
+}
+
+response = requests.post(url=PIXEL_POST_EP, json=pixel_config, headers=HEADERS)
+response.raise_for_status()
