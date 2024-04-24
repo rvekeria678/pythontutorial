@@ -30,8 +30,20 @@ today_YYYYMMDD = today.strftime('%Y%m%d')
 
 pixel_config = {
     "date":today_YYYYMMDD,
-    "quantity":'4.5',
+    "quantity":'93.1',
 }
 
-response = requests.post(url=PIXEL_POST_EP, json=pixel_config, headers=HEADERS)
-response.raise_for_status()
+#response = requests.post(url=PIXEL_POST_EP, json=pixel_config, headers=HEADERS)
+#response.raise_for_status()
+
+new_pixel_data = {
+    "quantity": "4.5"
+}
+
+update_endpoint = f"{PIXELA_EP}/{USERNAME}/graphs/{GRAPH_ID}/{today_YYYYMMDD}"
+
+#response = requests.put(url=update_endpoint,json=new_pixel_data, headers=HEADERS)
+#print(response.text)
+
+response = requests.delete(url=update_endpoint, headers=HEADERS)
+print(response.text)
