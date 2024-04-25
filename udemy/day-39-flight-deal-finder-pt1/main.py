@@ -5,10 +5,14 @@ from notification_manager import NotificationManager
 from pprint import pprint
 
 data_manager = DataManager()
-#sheet_data = data_manager.get_all()
+flight_search = FlightSearch()
 
-print(data_manager.get(1))
+sheet_data = data_manager.get_all()
 
-#for data in sheet_data:
-#    if data['iataCode'] == '':
-#        pass
+#print(data_manager.get(4))
+
+for data in sheet_data:
+    if data['iataCode'] == '':
+        iata_code = flight_search.get_iata_code(city_name=data['city'])
+        new_data = {'price':{'iataCode':iata_code}}
+        data_manager.update(rownum=data['id'], new_data=new_data)

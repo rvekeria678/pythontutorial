@@ -29,7 +29,8 @@ class DataManager:
         return response.json()['prices']
     
     def update(self, rownum: int, new_data: dict):
-        response = requests.put(url=SHEETY_BEARER_TOKEN, json=new_data, headers=self.headers)
+        query_ep = f"{SHEETY_EP}/{rownum}"
+        response = requests.put(url=query_ep, json=new_data, headers=self.headers)
         response.raise_for_status()
 
     def remove(self, city_name: str):
