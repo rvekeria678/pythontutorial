@@ -1,39 +1,43 @@
-from config import SHEETY_BEARER_TOKEN, SHEETY_EP
+from config import SHEETY_BEARER_TOKEN, SHEETY_HOST, SHEETY_PROJECTNAME, SHEETY_SHEETNAME, SHEETY_USERNAME
 import requests
 
 #responsible for talking to the Google Sheet.
 class DataManager:
     def __init__(self):
         self.headers = {"Authorization":f"Bearer {SHEETY_BEARER_TOKEN}"}
+        
 
     def add(self, city_name, iata_code="", lowest_price=0):
-        json_data = {
-            "price": {
-                "city": city_name,
-                "iataCode": iata_code,
-                "lowestPrice": lowest_price
-            }
-        }
-        response = requests.post(url=SHEETY_EP, json=json_data, headers=self.headers)
+        row_data = {"city:": city_name,"iataCode": iata_code,"lowestPrice": lowest_price}
+        new_data = {"price": row_data}
+        url = f"{SHEETY_HOST}/{SHEETY_USERNAME}/{SHEETY_PROJECTNAME}/{SHEETY_SHEETNAME}"
+        response = requests.post(url=url, json=new_data, headers=self.headers)
         response.raise_for_status()
+        print(f"DataManager (add) : Response Status: {response.status_code}")
 
     def get(self, rownum: int):
-        query_ep = f"{SHEETY_EP}/{rownum}"
-        response = requests.get(url=query_ep, headers=self.headers)
+        url = f"{SHEETY_HOST}/{SHEETY_USERNAME}/{SHEETY_PROJECTNAME}/{SHEETY_SHEETNAME}/{rownum}"
+        response = requests.get(url=url, headers=self.headers)
         response.raise_for_status()
+        print(f"DataManager (get) : Response Status: {response.status_code} | id:{rownum}")
         return response.json()
-
+        
     def get_all(self):
-        response = requests.get(url=SHEETY_EP, headers=self.headers)
+        url = f"{SHEETY_HOST}/{SHEETY_USERNAME}/{SHEETY_PROJECTNAME}/{SHEETY_SHEETNAME}"
+        response = requests.get(url=url, headers=self.headers)
         response.raise_for_status()
+        print(f"DataManager (get_all) : Response Status: {response.status_code}")
         return response.json()['prices']
     
-    def update(self, rownum: int, new_data: dict):
-        query_ep = f"{SHEETY_EP}/{rownum}"
-        response = requests.put(url=query_ep, json=new_data, headers=self.headers)
+    def update(self, rownum: int, row_data: dict):
+        url = f"{SHEETY_HOST}/{SHEETY_USERNAME}/{SHEETY_PROJECTNAME}/{SHEETY_SHEETNAME}/{rownum}"
+        new_data = {"price": row_data}
+        response = requests.put(url=url, json=new_data, headers=self.headers)
         response.raise_for_status()
+        print(f"DataManager (update) | Response Status: {response.status_code} | id:{rownum} -> {row_data}")
 
-    def remove(self, city_name: str):
-        pass
-
-
+    def remove(self, rownum: int):
+        url = f"{SHEETY_HOST}/{SHEETY_USERNAME}/{SHEETY_PROJECTNAME}/{SHEETY_SHEETNAME}/{rownum}"
+        response = requests.delete(url=url, headers=self.headers)
+        response.raise_for_status()
+        print(f"DataManager (delete) | Response Status: {response.status_code}")
