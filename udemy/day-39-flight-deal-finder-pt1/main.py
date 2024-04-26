@@ -3,7 +3,6 @@ from flight_data import FlightData
 from flight_search import FlightSearch
 from notification_manager import NotificationManager
 from pprint import pprint
-from config import DEPARTURE_LOC
 
 data_manager = DataManager()
 flight_search = FlightSearch()
