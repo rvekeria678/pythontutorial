@@ -1,5 +1,5 @@
 from config.endpoints import TEQUILA_HOST, TEQUILA_LOCATION_EP
-from config.api_keys import FLIGHTSEARCH_API_KEY
+from config.authorization import FLIGHTSEARCH_API_KEY
 import requests
 
 #This class is responsible for talking to the Flight Search API.

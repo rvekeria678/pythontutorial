@@ -1,5 +1,5 @@
 from config.endpoints import SHEETY_HOST, SHEETY_PROJECT_EP
-from config.api_keys import SHEETY_BEARER_TOKEN
+from config.authorization import SHEETY_BEARER_TOKEN
 import requests
 
 #responsible for talking to the Google Sheet.
