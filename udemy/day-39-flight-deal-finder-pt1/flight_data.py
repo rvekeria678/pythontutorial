@@ -6,29 +6,36 @@ import requests
 
 #This class is responsible for structuring the flight data.
 class FlightData:
-    def __init__(self, arrival_code: str, price_limit: int, stop_overs=0, via_city="", limit=1):
+    def __init__(self, arrival_code: str, price_limit: int):
         self.header = {"apikey":FLIGHTSEARCH_API_KEY}
+
+        self.departure_airport_code = DEPARTURE_CODE
+        self.departure_city = DEPARTURE_CITY
         
         self.arrival_code = arrival_code
+
+        self.price_limit = price_limit
+
+        self.ticket_info = self.get_ticket_info()
+
+    def get_ticket_info(self):
         tomorrow_date = datetime.now() + timedelta(1)
         six_month_date = datetime.now() + timedelta(180)
-        
         parameters = {
-            "fly_from":DEPARTURE_CODE,
+            "fly_from":self.departure_airport_code,
             "fly_to":self.arrival_code,
             "nights_in_dst_from":MIN_TRAVEL_TIME,
             "nights_in_dst_to":MAX_TRAVEL_TIME,
             "date_from":tomorrow_date.strftime('%d/%m/%Y'),
             "date_to":six_month_date.strftime('%d/%m/%Y'),
-            "max_stopovers": stop_overs,
+            "max_stopovers": MAX_STOPOVERS,
             "ret_to_diff_city": False,
             "curr": CURRENCY,
-            "price_to": price_limit,
+            "price_to": self.price_limit,
             "sort":"price",
-            "limit": limit
+            "limit": 1
         }
-        
         url=f"{TEQUILA_SEARCH_HOST}/{TEQUILA_SEARCH_EP}"
         response = requests.get(url=url, params=parameters, headers=self.header)
         response.raise_for_status()
-        self.ticket_info = response.json()
+        return response.json()

@@ -9,23 +9,23 @@ flight_search = FlightSearch()
 
 sheet_data = data_manager.get_all()
 
+tickets = []
+
 for data in sheet_data:
     if data['iataCode'] == '':
-        iata_code = flight_search.get_iata_code(city_name=data['city'])        
+        iata_code = flight_search.get_iata_code(city_name=data['city'])
+        data['iataCode'] = iata_code        
         row_data = {'iataCode':iata_code}
         data_manager.update(rownum=data['id'], row_data=row_data)
+    
 
-def ping_text(sheet_data):
-    for ticket in [FlightData(data['iataCode'], data['lowestPrice']) for data in sheet_data]:
-        if len(ticket.ticket_info['data']):
-            NotificationManager(
-                reciever_phone_number=PHONE_NUMBER,
-                ticket_details=ticket.ticket_info['data'][0]
-            )
-            print(f"{ticket.arrival_code}: ${ticket.ticket_info['data'][0]['price']}")
-
-def email_recipients(sheet_data):
-    pass
-
-
-ping_text(sheet_data=sheet_data)
+tickets = {data['iataCode']:FlightData(arrival_code=data['iataCode'],
+                      price_limit=data['lowestPrice']).ticket_info['data'] for data in sheet_data}
+'''
+for ticket in tickets:
+    if tickets[ticket]:
+        NotificationManager(ticket_details=tickets[ticket]['data'][0]).send_emails('')
+    else:
+        tickets[ticket] = FlightData(arrival_code=data['iataCode'], price_limit=data['lowestPrice'], stop_overs=1)
+        if tickets[ticket]:
+            NotificationManager(ticket_details=tickets[ticket]['data'][0]).send_emails('')'''
