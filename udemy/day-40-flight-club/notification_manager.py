@@ -20,3 +20,6 @@ class NotificationManager:
                 from_=TWILIO_PHONE_NUMBER,
                 to=reciever_phone_number
             )
+    
+    def send_text(phone_number):
+        pass

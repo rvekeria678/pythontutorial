@@ -9,12 +9,13 @@ class FlightData:
     def __init__(self, arrival_code: str, price_limit: int, stop_overs=0, via_city="", limit=1):
         self.header = {"apikey":FLIGHTSEARCH_API_KEY}
         
+        self.arrival_code = arrival_code
         tomorrow_date = datetime.now() + timedelta(1)
         six_month_date = datetime.now() + timedelta(180)
         
         parameters = {
             "fly_from":DEPARTURE_CODE,
-            "fly_to":arrival_code,
+            "fly_to":self.arrival_code,
             "nights_in_dst_from":MIN_TRAVEL_TIME,
             "nights_in_dst_to":MAX_TRAVEL_TIME,
             "date_from":tomorrow_date.strftime('%d/%m/%Y'),
