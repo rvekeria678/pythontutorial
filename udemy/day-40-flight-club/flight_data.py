@@ -34,3 +34,5 @@ class FlightData:
         response = requests.get(url=url, params=parameters, headers=self.header)
         response.raise_for_status()
         self.ticket_info = response.json()
+
+    

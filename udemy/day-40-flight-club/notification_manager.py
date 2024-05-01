@@ -22,8 +22,8 @@ class NotificationManager:
 
         message = f"Low price alert! Only ${price} to fly from {cityFrom}-{flyFrom}, to {cityTo}-{flyTo}, from {depart_date} to {arrival_date}\n\n"
         
-        #if routes > 2:
-        #    message += f'Flight has 1 stop over, via {self.ticket_details['route'][0]['cityTo']}.'
+        if len(routes) > 2:
+            message += f"Flight has 1 stop over, via {self.ticket_details['route'][0]['cityTo']}."
  
         return message
 
