@@ -1,3 +1,23 @@
 body, html {
     background-color: black;
+    font-family: Libre Baskerville, serif;
+}
+#wrapper {
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 10%;
+}
+#motpic {
+    width: 100%;
+    border: 5px solid white;
+}
+#title-text {
+    color:white;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 35px;
+}
+#sub-text {
+    color: white;
+    text-align: center;
 }
