@@ -1,1 +1,1 @@
-BB_URL = 'https://www.billboard.com/charts/hot-100/2024-04-12/'
+BB_URL = 'https://www.billboard.com/charts/hot-100'
