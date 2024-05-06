@@ -11,20 +11,11 @@ class BB_Scraper:
 
         soup = BeautifulSoup(bb_webpage, 'html.parser')
 
-        #article_tags = soup.find(name='li', class_='o-chart-results-list__item')
+        cards = soup.find_all(name='div', class_='o-chart-results-list-row-container')
 
-        song_tags = soup.select("li ul .c-title")
-        songs = [el.getText().replace('\n','').replace('\t','') for el in song_tags]
-
-        artist_tags = soup.select("li ul .c-label")
-        #artists = [el.getText().replace('\n','').replace('\t','') for el in artist_tags]
-
-        #print(songs)
-        print(artist_tags)
-
-        #print(songs)
-
-        ##class="o-chart-results-list__item // lrv-u-flex-grow-1 lrv-u-flex lrv-u-flex-direction-column lrv-u-justify-content-center lrv-u-border-b-1 u-border-b-0@mobile-max lrv-u-border-color-grey-light  lrv-u-padding-l-1@mobile-max"
-
+        self.titles = [el.find('ul').select('li ul li h3')[0].getText()
+                  .replace('\t','').replace('\n','') for el in cards]
+        self.artists = [el.find('ul').select('li ul li span')[0].getText()
+                   .replace('\t','').replace('\n','') for el in cards]
 
 BB_Scraper()
