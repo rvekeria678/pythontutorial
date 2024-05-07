@@ -21,4 +21,6 @@ while not valid_date(date):
     print("Please enter a past date!")
     date = get_date()
 #-----Creating Playlist-----#
-spotify_manager = SpotifyManager(playlist_data=(date,BB_Scraper(date=date).data))
+#spotify_manager = SpotifyManager(playlist_data=(date,BB_Scraper(date=date).data))
+spotify_manager = SpotifyManager()
+spotify_manager.create_playlist(playlist_data=(date, BB_Scraper(date=date).data))
