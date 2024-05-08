@@ -1,8 +1,8 @@
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth, SpotifyClientCredentials
 from config.spotipy import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI
-import random
-import datetime
+from pprint import pprint
+
 
 class SpotifyManager:
     def __init__(self) -> None:
@@ -18,25 +18,28 @@ class SpotifyManager:
         try:
             playlist_name = f'{playlist_data[0]} Billboard 100'
             playlist_description = "A playlist created with Spotipy"
-            self.playlist = sp.user_playlist_create(self.user_id,
+            playlist = sp.user_playlist_create(self.user_id,
                                                playlist_name,
                                                public=False,
                                                description=playlist_description)
-            print("Playlist created...")
+            playlist_id = playlist['id']
+            print(f"Playlist created with ID: {playlist_id}")
             print("Attempting to add songs...")
-            tracks = [self.search(track_name=track,
-                                  track_year=playlist_data[0])['tracks']['href']
+            results = [self.search(track_name=track,
+                                  release_year=playlist_data[0].split('-')[0])
                                   for track in playlist_data[1]]
-            sp.playlist_add_items(self.playlist, tracks)
+            uri_links = [result['tracks']['items'][0]['uri'] for result in results if result['tracks']['items']]
+            print(uri_links)
+            sp.user_playlist_add_tracks(user=self.user_id,playlist_id=playlist_id, tracks=uri_links)
             print("Succesfully Added Songs! Enjoy your tunes!")
 
         except spotipy.exceptions.SpotifyException:
             print("Authentication failed. Check you credentials.")
 
-    def search(self, track_name: str, track_year: str):
+    def search(self, track_name: str, release_year: str):
         scope = 'user-library-read'
         sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
-        query = f"track:{track_name} year:{track_year}"
-        results = sp.search(q=query, limit=1, type='track')
-        return results
-                
+        query = f"track:{track_name} year:{release_year}"
+        pprint(query)
+        result = sp.search(q=query, limit=1, type='track')
+        return result
