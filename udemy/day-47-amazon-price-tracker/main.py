@@ -21,7 +21,7 @@ df = pd.read_csv(PRODUCTS_PATH)
 for index, row, in df.iterrows():
     print(row['url'])
     print(type(row['url']))
-    response = requests.get(row['url'], headers=HEADERS)
+    response = requests.get(url=row['url'], headers=HEADERS)
     response.raise_for_status()
     soup = BeautifulSoup(response.text, 'http.parser')
     #-----Filter Scrapped Price-----#
