@@ -3,29 +3,30 @@ from config.headers import USER_AGENT, ACCEPT_LANGUAGE
 from config.email import EMAIL, PASSWORD, SMTP_ADDR
 from config.paths import PRODUCTS_PATH
 from bs4 import BeautifulSoup
-import pandas
+from pprint import pprint
+import pandas as pd
 import requests
 import smtplib
-import pprint
 
-headers = {
+#------Constants-----#
+HEADERS = {
     "User-Agent": USER_AGENT,
     "Accept-Language": ACCEPT_LANGUAGE
 }
-
+#-----Globals-----#
 price_chart = {}
-'''
-for product_url in PRODUCT_URLS:
-    response = requests.get(url=product_url, headers=headers)
+#-----Retrieve Local Data-----#
+df = pd.read_csv(PRODUCTS_PATH)
+#-----Check Watch Prices-----#
+for index, row, in df.iterrows():
+    print(row['url'])
+    print(type(row['url']))
+    response = requests.get(row['url'], headers=HEADERS)
     response.raise_for_status()
-    soup = BeautifulSoup(response.text, 'html.parser')
+    soup = BeautifulSoup(response.text, 'http.parser')
+    #-----Filter Scrapped Price-----#
     dollars = soup.find(name='span', class_="a-price-whole").getText()
     cents = soup.find(name='span', class_="a-price-fraction").getText()
-    price_chart[product_url] = float(f"{dollars}{cents}")
-'''
-
-
-
-data = pandas.read_csv(PRODUCTS_PATH)
-
-pprint(data)
+    current_price = float(f"{dollars}{cents}")
+    if current_price <= row["watch_price"]:
+        print("Sending an Email...")

@@ -1,5 +1,6 @@
+from dotenv import load_dotenv
 import os
 
-PARENT_DIR = os.path.dirname(__file__)
+load_dotenv()
 
-PRODUCTS_PATH = os.path.join(PARENT_DIR, "products.csv")
+PRODUCTS_PATH = os.environ.get("PRODUCTS_PATH")
