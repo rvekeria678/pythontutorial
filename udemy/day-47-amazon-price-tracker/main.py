@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 import requests
 import smtplib
 
-
 headers = {
     "User-Agent": USER_AGENT,
     "Accept-Language": ACCEPT_LANGUAGE
