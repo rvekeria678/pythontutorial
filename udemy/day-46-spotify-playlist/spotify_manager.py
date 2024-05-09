@@ -3,13 +3,12 @@ from spotipy.oauth2 import SpotifyOAuth, SpotifyClientCredentials
 from config.spotipy import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI
 from pprint import pprint
 import os
+import base64
 
 class SpotifyManager:
     def __init__(self) -> None:
         SCOPES = ['playlist-modify-private', 'user-library-read']
         self.sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=SCOPES, redirect_uri=SPOTIFY_REDIRECT_URI))
-
-        PARENT_PATH = os.path.dirname
 
         self.user = self.sp.current_user()
         self.user_id = self.user['id']
