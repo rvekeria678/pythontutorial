@@ -34,4 +34,6 @@ for index, row, in df.iterrows():
             with smtplib.SMTP(SMTP_ADDR, 587) as server:
                 server.starttls()
                 server.login(user=EMAIL, password=PASSWORD)
-                server.sendmail(from_addr=EMAIL, to_addrs=EMAIL, msg=f"Subject:{subject}\n\n{message}")
+                server.sendmail(from_addr=EMAIL,
+                                to_addrs=EMAIL,
+                                msg=f"Subject:{subject}\n\n{message}")
