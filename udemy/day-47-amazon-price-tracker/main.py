@@ -19,14 +19,19 @@ price_chart = {}
 df = pd.read_csv(PRODUCTS_PATH)
 #-----Check Watch Prices-----#
 for index, row, in df.iterrows():
-    print(row['url'])
-    print(type(row['url']))
     response = requests.get(url=row['url'], headers=HEADERS)
     response.raise_for_status()
-    soup = BeautifulSoup(response.text, 'http.parser')
+    soup = BeautifulSoup(response.text, 'html.parser')
     #-----Filter Scrapped Price-----#
     dollars = soup.find(name='span', class_="a-price-whole").getText()
     cents = soup.find(name='span', class_="a-price-fraction").getText()
-    current_price = float(f"{dollars}{cents}")
-    if current_price <= row["watch_price"]:
-        print("Sending an Email...")
+    if dollars and cents:
+        current_price = float(f"{dollars}{cents}")
+        if current_price <= row['wp']:
+            product_title = soup.find(name='span', id="productTitle").getText()
+            subject = f"Amazon Price Alert! (Price Drop: ${current_price})"
+            message = f"{product_title} is now ${current_price}\n{row['url']}"
+            with smtplib.SMTP(SMTP_ADDR, 587) as server:
+                server.starttls()
+                server.login(user=EMAIL, password=PASSWORD)
+                server.sendmail(from_addr=EMAIL, to_addrs=EMAIL, msg=f"Subject:{subject}\n\n{message}")
