@@ -19,9 +19,13 @@ events_li = events_ul.find_elements(By.TAG_NAME, value="li")
 dates = [el.find_element(By.TAG_NAME, value='time').text for el in events_li]
 events = [el.find_element(By.TAG_NAME, value='a').text for el in events_li]
 
-event_info = dict(zip([i for i in range(len(dates))],
-                      list(zip(dates, events))))
+schedule = {}
 
-print(event_info)
+for x in range(len(dates)):
+    schedule[x] = {
+        'time': dates[x],
+        'name': events[x]
+    }
+print(schedule)
 
 driver.quit()
