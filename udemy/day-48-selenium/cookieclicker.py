@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from pprint import pprint
 import time
 
 #-----Constants-----#
@@ -16,30 +17,26 @@ driver.get(URL)
 
 cookie = driver.find_element(By.ID, value='cookie')
 
-timeout = time.time() + 5
+upgrades = driver.find_elements(by=By.CSS_SELECTOR, value="#store div")[:-1]
+upgrade_ids = [upgrade.get_attribute("id") for upgrade in upgrades]
+
+timeout = time.time() + 4
+
 #-----Cookie Bot Logic-----#
 while True:
     cookie.click()
 
     if time.time() > timeout:
-        upgrades = driver.find_elements(By.CSS_SELECTOR, value = "#store div")[:-1]
-
-        bel_text = [el.text for el in driver.find_elements(By.CSS_SELECTOR, value="#store b")][:-1]
-        prices = [int(text.split('-')[1].replace(',','')) for text in bel_text]
-
-        price_bind_div = dict(zip(prices, upgrades))
-
+        upgrade_costs = driver.find_elements(by=By.CSS_SELECTOR, value="#store b")[:-1]
+        prices = [int(cost.text.split('-')[1].strip().replace(',','')) for cost in upgrade_costs]
+        all_upgrades = dict(zip(prices, upgrade_ids))
         money = int(driver.find_element(By.ID, value='money').text.replace(',',''))
-
-        affordable_upgrades = [cost for cost in prices if cost <= money]
-
-        print(f"Money: {money}")
-        print(f"Affordable Upgrades: {affordable_upgrades}")
+        affordable_upgrades = [price for price in prices if price <= money]
 
         if affordable_upgrades:
-            most_expensive_upgrade = max(affordable_upgrades)
-            print(f"MEU: {most_expensive_upgrade}")
-            
-            price_bind_div[most_expensive_upgrade].click()       
+            highest_price_affordable = max(affordable_upgrades)
+            purchase_id = all_upgrades[highest_price_affordable]
 
-        timeout = time.time() + 5
+            driver.find_element(by=By.ID, value=purchase_id).click()
+
+        timeout = time.time() + 4
