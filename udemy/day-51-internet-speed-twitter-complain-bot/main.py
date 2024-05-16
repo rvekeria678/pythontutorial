@@ -14,7 +14,9 @@ load_dotenv()
 TWITTER_EMIAL = os.environ.get("TWITTER_EMAIL")
 TWITTER_PASSWORD = os.environ.get("TWITTER_PASSWORD")
 WEBSPEEDTEST_URL = "https://www.speedtest.net/"
-
+MAX_WAIT = 180
+UPLOAD_LOC = (By.CSS_SELECTOR,'.upload-speed')
+DOWNLOAD_LOC = (By.CSS_SELECTOR,'.download-speed')
 #-----Globals------#
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_experimental_option('detach', True)
@@ -30,23 +32,21 @@ class InternetSpeedTwitterBot:
         self.driver.find_element(by=By.CLASS_NAME, value="start-text").click()
         #-----Wait for Test to Finish------#
         try:
-            WebDriverWait(self.driver, 60).until(
-                EC.presence_of_all_elements_located(by=By.CSS_SELECTOR,value=".download-speed")
+            WebDriverWait(self.driver, MAX_WAIT).until(
+                EC.text_to_be_present_in_element(DOWNLOAD_LOC,'')
             )
             print("Speed Calculation Successful")
         except Exception as e:
             print(f"Error Occurred: {e}")
         finally:
             #-----Retrieve Up/Down Speed Data-----#
-            time.sleep(10)
-            self.down = float(self.driver.find_element(by=By.CSS_SELECTOR,
-                                                       value=".download-speed").text)
-            self.up = float(self.driver.find_element(by=By.CSS_SELECTOR,
-                                                     value=".upload-speed").text)
-            print(f"Upload Speeds: {self.up}")
-            print(f"Download Speeds: {self.down}")
+            self.down = self.driver.find_element(*DOWNLOAD_LOC)
+            self.up = self.driver.find_element(*UPLOAD_LOC)
             
-
+            print(f"Upload Speeds: {self.up.text}")
+            print(f"Download Speeds: {self.down.text}")
+            
+            self.driver.quit()
     def tweet_at_provider():
         pass
         
