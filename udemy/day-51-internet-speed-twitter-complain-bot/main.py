@@ -20,7 +20,7 @@ MAX_WAIT = 180
 UPLOAD_LOC = (By.CSS_SELECTOR,'.upload-speed')
 DOWNLOAD_LOC = (By.CSS_SELECTOR,'.download-speed')
 EMAIL_INPUT_LOC = (By.XPATH, '/html/body/div/div/div/div[1]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[4]/label/div/div[2]/div/input')
-PASSWORD_INPUT_LOC = (By.NAME, 'password')
+PASSWORD_INPUT_LOC = (By.XPATH, '/html/body/div/div/div/div[2]/main/div/div/div/div[2]/div[2]/div[1]/div/div/div[2]/label/div/div[2]/div/input')
 #-----Globals------#
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_experimental_option('detach', True)
@@ -30,7 +30,7 @@ class InternetSpeedTwitterBot:
         self.driver = webdriver.Chrome(options=chrome_options)
         self.down = 10
         self.up = 10
-        #self.get_internet_speed()
+        self.get_internet_speed()
 
     def get_internet_speed(self) -> None:
         self.driver.get(WEBSPEEDTEST_URL)
@@ -71,9 +71,17 @@ class InternetSpeedTwitterBot:
                     print(f"Failed to log in to Twitter. Error: {e}")
                 finally:
                     username_input = self.driver.find_element(*EMAIL_INPUT_LOC)
-                    username_input.send_keys(TWITTER_EMAIL, k)
-                    password_input = self.driver.find_element(*PASSWORD_INPUT_LOC)
-                    password_input.send_keys(TWITTER_PASSWORD)
+                    username_input.send_keys(TWITTER_EMAIL, Keys.ENTER)
+                    
+                    try:
+                        WebDriverWait(self.driver, 10).until(
+                            EC.presence_of_element_located(PASSWORD_INPUT_LOC)
+                        )
+                    except Exception as e:
+                        print(F"Failed to log in to Twitter. Error: {e}")
+                    finally:
+                        password_input = self.driver.find_element(*PASSWORD_INPUT_LOC)
+                        password_input.send_keys(TWITTER_PASSWORD, Keys.ENTER)
             else:
                 print("Acceptable Speed Observed.")
         
