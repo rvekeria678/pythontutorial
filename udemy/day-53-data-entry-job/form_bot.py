@@ -51,28 +51,4 @@ class FormBot:
                 print(f"Failed to add another entry. Error: {e}")
             finally:
                 self.driver.find_element(*ANTR_BUTTON_LITE).click()
-
-
-'''
-form = FormBot(url=GOOGLE_FORMS_URL)
-
-TEST_DATA = [
-    {
-        "property_addr":"1",
-        "monthly_rent": 1000,
-        "link": "weafunapwueb"
-    },
-    {
-        "property_addr":"2",
-        "monthly_rent": 2000,
-        "link": "aweufnawuebf"
-    },
-    {
-        "property_addr":"3",
-        "monthly_rent": 2392,
-        "link": "pawuf"
-    },
-]
-
-form.add_data(TEST_DATA)
-'''
+                self.driver.close()
