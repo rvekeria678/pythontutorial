@@ -8,10 +8,12 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 #-----Constants------#
-GOOGLE_FORMS_URL = os.environ.get("GOOGLE_FORM_URL")
 ADDR_INPUT_XPATH = (By.XPATH, '/html/body/div/div[2]/form/div[2]/div/div[2]/div[1]/div/div/div[2]/div/div[1]/div/div[1]/input')
 RENT_INPUT_XPATH = (By.XPATH, '/html/body/div/div[2]/form/div[2]/div/div[2]/div[2]/div/div/div[2]/div/div[1]/div/div[1]/input')
 LINK_INPUT_XPATH = (By.XPATH, '/html/body/div/div[2]/form/div[2]/div/div[2]/div[3]/div/div/div[2]/div/div[1]/div/div[1]/input')
+SBMT_BUTTON_XPATH = (By.XPATH,'/html/body/div/div[2]/form/div[2]/div/div[3]/div[1]/div[1]/div/span/span')
+ANTR_BUTTON_LITE = (By.LINK_TEXT, "Submit another response")
+MAX_WAIT = 10
 #-----Globals------#
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_experimental_option('detach', True)
@@ -21,11 +23,56 @@ class FormBot:
         self.url = url
         self.driver = webdriver.Chrome(options=chrome_options)
 
-    def _add(self, property_addr: str, monthly_rent: str, link: str) -> None:
+    def add_data(self, data: list) -> None:
         self.driver.get(self.url)
-        addr_input = self.driver.find_element(*ADDR_INPUT_XPATH)
-        addr_input.send_keys(property_addr)
-        
+        for entry in data:    
+            try:
+                WebDriverWait(self.driver, MAX_WAIT).until(
+                    EC.element_to_be_clickable(SBMT_BUTTON_XPATH)
+                )
+            except Exception as e:
+                print(f"Form Error: {e}")
+            finally:
+                addr_input = self.driver.find_element(*ADDR_INPUT_XPATH)
+                addr_input.send_keys(entry["property_addr"])
 
+                rent_input = self.driver.find_element(*RENT_INPUT_XPATH)
+                rent_input.send_keys(entry["monthly_rent"])
+
+                link_input = self.driver.find_element(*LINK_INPUT_XPATH)
+                link_input.send_keys(entry["link"])
+        
+                self.driver.find_element(*SBMT_BUTTON_XPATH).click()
+            try:
+                WebDriverWait(self.driver, MAX_WAIT).until(
+                    EC.element_to_be_clickable(ANTR_BUTTON_LITE)
+                )
+            except Exception as e:
+                print(f"Failed to add another entry. Error: {e}")
+            finally:
+                self.driver.find_element(*ANTR_BUTTON_LITE).click()
+
+
+'''
 form = FormBot(url=GOOGLE_FORMS_URL)
-form._add("My name", "is", "Zeph!")
+
+TEST_DATA = [
+    {
+        "property_addr":"1",
+        "monthly_rent": 1000,
+        "link": "weafunapwueb"
+    },
+    {
+        "property_addr":"2",
+        "monthly_rent": 2000,
+        "link": "aweufnawuebf"
+    },
+    {
+        "property_addr":"3",
+        "monthly_rent": 2392,
+        "link": "pawuf"
+    },
+]
+
+form.add_data(TEST_DATA)
+'''
