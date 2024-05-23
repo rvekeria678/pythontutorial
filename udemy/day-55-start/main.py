@@ -2,6 +2,17 @@ from flask import Flask
 
 app = Flask(__name__)
 
+def make_bold(function):
+    def wrapper():
+        return f"<b>{function()}<b>"
+    return wrapper
+
+def make_emphasis():
+    pass
+
+def make_underlined():
+    pass
+
 @app.route('/')
 def hello_world():
     return "<h1 style='text-align:center'>Hello, World!</h1>"
