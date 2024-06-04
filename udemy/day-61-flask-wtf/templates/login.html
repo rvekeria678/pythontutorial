@@ -8,10 +8,20 @@
         <div class="container">
 		<h1>Login</h1>
         <!-- This is where our form will go. -->
-		<form method="POST", action="{{ url_for('login') }}">
+		<form method="POST", action="{{ url_for('login') }}" novalidate>
 			{{ form.csrf_token }}
-			<p>{{ form.email.label }}<br>{{ form.email(size=20) }}</p>
-			<p>{{ form.pswd.label }}<br>{{ form.pswd(size=20) }}</p>
+			<p>
+				{{ form.email.label }}<br>{{ form.email(size=20) }}
+				{% for err in form.email.errors %}
+				<span style="color:red;">{{ err }}</span>
+				{% endfor %}
+			</p>
+			<p>
+				{{ form.pswd.label }}<br>{{ form.pswd(size=20) }}
+				{% for err in form.pswd.errors %}
+				<span style="color:red;">{{ err }}</span>
+				{% endfor %}
+			</p>
 			{{ form.sbmt }}
 		</form>
         </div>
