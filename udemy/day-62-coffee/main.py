@@ -14,14 +14,17 @@ class CafeForm(FlaskForm):
     cafe = StringField(label='Cafe name',
                        validators=[DataRequired()])
     location_url = StringField(label="Cafe Location on Google maps (URL)",
-                               validators=[DataRequired()])
+                               validators=[DataRequired(), URL()])
     opening_time = StringField(label="Opening Time e.g. 8AM",
                                validators=[DataRequired()])
     closing_time = StringField(label="Closing Time e.g. 5:30PM",
                                validators=[DataRequired()])
-    coffee_rating = SelectField(label="Coffee Rating")
-    wifi_rating = SelectField(label="Wifi Strength Rating")
-    outlet_rating = SelectField(label="Power Socket Availability")
+    coffee_rating = SelectField(label="Coffee Rating",
+                                choices=['☕️','☕️☕️','☕️☕️☕️','☕️☕️☕️☕️','☕️☕️☕️☕️☕️'])
+    wifi_rating = SelectField(label="Wifi Strength Rating",
+                              choices=['✘','💪','💪💪','💪💪💪','💪💪💪💪','💪💪💪💪💪'])
+    outlet_rating = SelectField(label="Power Socket Availability",
+                                choices=['✘','🔌','🔌🔌','🔌🔌🔌','🔌🔌🔌🔌','🔌🔌🔌🔌🔌'])
     submit = SubmitField('Submit')
 
 
@@ -40,11 +43,22 @@ def home():
     return render_template("index.html")
 
 
-@app.route('/add')
+@app.route('/add', methods=['GET', 'POST'])
 def add_cafe():
     form = CafeForm()
     if form.validate_on_submit():
-        print("True")
+        cafe = form.cafe.data
+        loc = form.location_url.data
+        opening = form.opening_time.data
+        closing = form.closing_time.data
+        coffee_rating = form.coffee_rating.data
+        wifi_rating = form.wifi_rating.data
+        outlet_rating = form.outlet_rating.data
+
+        with open('./cafe-data.csv', 'a', encoding='utf-8') as csvfile:
+            csvfile.write(f"{cafe},{loc},{opening},{closing},{coffee_rating},{wifi_rating},{outlet_rating}\n")
+
+        return cafes()
     # Exercise:
     # Make the form write a new row into cafe-data.csv
     # with   if form.validate_on_submit()
