@@ -1,8 +1,8 @@
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap5
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms import StringField, SubmitField, SelectField
+from wtforms.validators import DataRequired, URL
 import csv
 
 app = Flask(__name__)
@@ -11,8 +11,19 @@ Bootstrap5(app)
 
 
 class CafeForm(FlaskForm):
-    cafe = StringField('Cafe name', validators=[DataRequired()])
+    cafe = StringField(label='Cafe name',
+                       validators=[DataRequired()])
+    location_url = StringField(label="Cafe Location on Google maps (URL)",
+                               validators=[DataRequired()])
+    opening_time = StringField(label="Opening Time e.g. 8AM",
+                               validators=[DataRequired()])
+    closing_time = StringField(label="Closing Time e.g. 5:30PM",
+                               validators=[DataRequired()])
+    coffee_rating = SelectField(label="Coffee Rating")
+    wifi_rating = SelectField(label="Wifi Strength Rating")
+    outlet_rating = SelectField(label="Power Socket Availability")
     submit = SubmitField('Submit')
+
 
 # Exercise:
 # add: Location URL, open time, closing time, coffee rating, wifi rating, power outlet rating fields
