@@ -4,9 +4,14 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Float
 import sqlite3
 
-db = sqlite3.connect("books-collection.db")
+class Base(DeclarativeBase):
+    pass
 
-cursor = db.cursor()
+db = SQLAlchemy(model_class=Base)
+
+#db = sqlite3.connect("books-collection.db")
+
+#cursor = db.cursor()
 
 #cursor.execute("CREATE TABLE books (id INTEGER PRIMARY KEY, title varchar(250) NOT NULL UNIQUE, author varchar(250) NOT NULL, rating FLOAT NOT NULL)")
 
