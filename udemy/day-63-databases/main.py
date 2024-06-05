@@ -60,6 +60,14 @@ def edit():
     book_id = request.args.get('id')
     book_selected = db.get_or_404(Book, book_id)
     return render_template("edit.html", book=book_selected)
+# Delete Book from Library
+@app.route('/delete')
+def delete():
+    book_id = request.args.get('id')
+    book_to_delete = db.get_or_404(Book, book_id)
+    db.session.delete(book_to_delete)
+    db.session.commit()
+    return redirect(url_for('home'))
 
 #-----Server Start-----#
 if __name__ == "__main__":
