@@ -61,10 +61,10 @@ def get_all():
 
 @app.route('/search')
 def search_cafe():
-    loc = request.args.get('loc')
-    results = db.session.execute(db.select(Cafe).where(Cafe.location == loc))
-    cafes = results.scalars().all()
-    if cafes: return jsonify(cafes=[cafe.to_dict() for cafe in cafes])
+    q_loc = request.args.get('loc')
+    results = db.session.execute(db.select(Cafe).where(Cafe.location == q_loc))
+    all_cafes = results.scalars().all()
+    if all_cafes: return jsonify(cafes=[cafe.to_dict() for cafe in all_cafes])
     else:
         return jsonify(error={"Not Found":"Sorry, we don't have a cafe at that location."})
 
@@ -88,9 +88,29 @@ def add_cafe():
     return jsonify(response={"success":"Successfully added the new cafe"})
 
 # HTTP PUT/PATCH - Update Record
-
+@app.route('/update-price/<int:cafe_id>', methods=['PATCH'])
+def update_price(cafe_id):
+    new_price = request.args.get('new_price')
+    cafe = db.get_or_404(Cafe, cafe_id)
+    if cafe:
+        cafe.coffee_price = new_price
+        db.session.commit()
+        return jsonify(response={"success":"Successfully updates the price."}), 200
+    else:
+        return jsonify(error={"Not Found":"Sorry a cafe with that id was not found in the database."}), 404
+    
 # HTTP DELETE - Delete Record
-
+@app.route('/report-closed/<cafe_id>', methods=['DELETE'])
+def delete_cafe(cafe_id):
+    if request.args.get('api_key') == 'TopSecretAPIKey':
+        cafe_to_del = db.get_or_404(Cafe, cafe_id)
+        if cafe_to_del:
+            db.session.delete(cafe_to_del)
+            db.session.commit()
+            return jsonify(response={"success":"Successfully deleted cafe"})
+        else:
+            return jsonify(error={"Not Found":"Sorry a cafe with that id was not found in the database."})
+    return jsonify({"error":"Sorry, that's not allowed. Make sure you have the correct api_key."})
 
 if __name__ == '__main__':
     app.run(debug=True)
