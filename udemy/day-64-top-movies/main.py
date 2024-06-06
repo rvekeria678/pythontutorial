@@ -6,10 +6,13 @@ from sqlalchemy import Integer, String, Float
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField
 from wtforms.validators import DataRequired
-import requests
+from dotenv import load_dotenv
+import requests, os
 
 #-----Constants-----#
 DATABASE_URL = 'sqlite:///movies.db'
+TMDB_URL = 'https://api.themoviedb.org/3/search/movie'
+load_dotenv()
 #-----Aux-----#
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
@@ -35,6 +38,9 @@ class EditForm(FlaskForm):
     review = StringField(label="Your Review",
                          validators=[DataRequired()])
     sbmt = SubmitField(label="Done")
+class AddForm(FlaskForm):
+    movie_title = StringField(label="Movie Title")
+    sbmt = SubmitField(label="Add Movie")
 #-----Create DB-----#
 with app.app_context():
     db.create_all()
@@ -48,16 +54,46 @@ def home():
 @app.route('/edit', methods=['GET', 'POST'])
 def edit():
     edit_form = EditForm()
-    if edit_form.validate_on_submit():
+    if edit_form.validate_on_submit() and request.method == 'POST':
+        movie_id = request.args.get('id')
+        movie_to_update = db.get_or_404(Movie, movie_id)
+        movie_to_update.review = edit_form.review.data
+        movie_to_update.rating = edit_form.rating.data
+        db.session.commit()
         return redirect(url_for("home"))
     
     movie_id = request.args.get('id')
-    movie_to_edit = db.get_or_404(Movie, movie_id)
-    return render_template('edit.html', movie=movie_to_edit, form=edit_form)
+    movie_selected = db.get_or_404(Movie, movie_id)
+    return render_template('edit.html', movie=movie_selected, form=edit_form)
 
 @app.route('/delete')
 def delete():
-    pass
+    movie_id = request.args.get('id')
+    movie_to_delete = db.get_or_404(Movie, movie_id)
+    db.session.delete(movie_to_delete)
+    db.session.commit()
+    return redirect(url_for("home"))
+
+@app.route('/add', methods=['GET', 'POST'])
+def add():
+    add_form = AddForm()
+    if add_form.validate_on_submit():
+        tmdb_params = {
+            "query": add_form.movie_title.data,
+            "api_key": os.environ.get('TMDB_API_KEY')
+        }
+        response = requests.get(url=TMDB_URL, params=tmdb_params)
+        results = response.json()
+
+        print(results)
+        #return redirect(url_for('select'))
+    return render_template('add.html', form=add_form)
+
+@app.route('/select')
+def select():
+
+    return render_template('select.html')
+
 #-----Server Driver-----#
 if __name__ == '__main__':
     app.run(debug=True)
