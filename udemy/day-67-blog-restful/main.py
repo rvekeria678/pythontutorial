@@ -89,7 +89,14 @@ def edit_post(post_id):
         body=post.body,
     )
     if edit_form.validate_on_submit():
-        return redirect(url_for('show_post', post_id))
+        updated_post = db.get_or_404(BlogPost, post_id)
+        updated_post.title = edit_form.title.data
+        updated_post.subtitle = edit_form.subtitle.data
+        updated_post.img_url = edit_form.img_url.data
+        updated_post.author = edit_form.author.data
+        updated_post.body = edit_form.body.data
+        db.session.commit()
+        return redirect(url_for('show_post', post_id=post_id))
     return render_template('make-post.html', form=edit_form, edit_mode=True)
 
 # TODO: delete_post() to remove a blog post from the database
